@@ -453,7 +453,7 @@
         "turnsLeft": "0",
         "conditions": [
           [
-            ["battleType", "1", "ar"],
+            ["battleType", "5", "ar"],
             ["isBoss", "5", "1"]
           ]
         ]
@@ -481,4 +481,5 @@
     }
   }
 }
+
 
