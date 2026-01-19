@@ -442,21 +442,7 @@
         "selectRange": true,
         "selectOrder": false,
         "turnsLeft": "0",
-        "conditions": [[["battleType", "5", "gf"]]]
-      },
-      "Imperil_3": {
-        "moduleStatus": true,
-        "moduleType": "Imperil",
-        "targetCount": "3",
-        "selectRange": false,
-        "selectOrder": false,
-        "turnsLeft": "0",
-        "conditions": [
-          [
-            ["battleType", "5", "ar"],
-            ["isBoss", "5", "1"]
-          ]
-        ]
+        "conditions": []
       }
     }
   },
@@ -481,5 +467,3 @@
     }
   }
 }
-
-
