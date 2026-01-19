@@ -1,0 +1,381 @@
+{
+  "fightingStyle": "melee",
+  "defaultAttackMode": "hpMax",
+  "defaultBossPriority": true,
+  "autoNextRound": true,
+  "attackModules": [
+    ["tw", "order", false],
+    ["rb", "order", false]
+  ],
+  "spiritstance": {
+    "status": true,
+    "modules": {
+      "spiriton_0": {
+        "moduleStatus": true,
+        "moduleType": "spiriton",
+        "conditions": [
+          [
+            ["oc", "1", "230"],
+            ["battleType", "6", "tw"]
+          ],
+          [
+            ["oc", "1", "230"],
+            ["battleType", "5", "tw"],
+            ["totalMon", "6", "aliveMon"]
+          ]
+        ]
+      }
+    }
+  },
+  "gem": {
+    "status": true,
+    "modules": {
+      "Health Gem_0": {
+        "moduleStatus": true,
+        "moduleType": "Health Gem",
+        "conditions": [
+          [["hp", "2", "70"]],
+          [
+            ["battleType", "5", "ar"],
+            ["hp", "2", "100"]
+          ]
+        ]
+      },
+      "Mana Gem_1": {
+        "moduleStatus": true,
+        "moduleType": "Mana Gem",
+        "conditions": [
+          [["mp", "2", "75"]],
+          [
+            ["battleType", "5", "ar"],
+            ["mp", "2", "75"]
+          ]
+        ]
+      },
+      "Spirit Gem_2": {
+        "moduleStatus": true,
+        "moduleType": "Spirit Gem",
+        "conditions": [
+          [["sp", "2", "90"]],
+          [
+            ["battleType", "5", "ar"],
+            ["sp", "2", "100"]
+          ]
+        ]
+      },
+      "Mystic Gem_3": {
+        "moduleStatus": true,
+        "moduleType": "Mystic Gem",
+        "conditions": [[["totalMon", "6", "aliveMon"]]]
+      }
+    }
+  },
+  "channel": {
+    "status": true,
+    "modules": {
+      "Heartseeker_0": {
+        "moduleStatus": true,
+        "moduleType": "Heartseeker",
+        "conditions": [
+          [
+            ["buff_Heartseeker", "2", "150"],
+            ["totalMon", "6", "aliveMon"]
+          ],
+          [
+            ["buff_Heartseeker", "2", "120"],
+            ["aliveMon", "2", "7"]
+          ],
+          [["buff_Heartseeker", "2", "50"]]
+        ]
+      },
+      "Regen_1": {
+        "moduleStatus": true,
+        "moduleType": "Regen",
+        "conditions": [
+          [
+            ["buff_Regen", "2", "100"],
+            ["totalMon", "6", "aliveMon"]
+          ],
+          [
+            ["buff_Regen", "2", "80"],
+            ["aliveMon", "2", "7"]
+          ],
+          [["buff_Regen", "2", "50"]]
+        ]
+      }
+    }
+  },
+  "recovery": {
+    "status": true,
+    "modules": {
+      "Spirit Potion_0": {
+        "moduleStatus": true,
+        "moduleType": "Spirit Potion",
+        "conditions": [
+          [["sp", "2", "52"]],
+          [
+            ["sp", "2", "58"],
+            ["battleType", "5", "tw"],
+            ["totalMon", "5", "aliveMon"]
+          ]
+        ]
+      },
+      "Spirit Elixir_1": {
+        "moduleStatus": true,
+        "moduleType": "Spirit Elixir",
+        "conditions": [
+          [
+            ["sp", "2", "33"],
+            ["scroll_Spark of Life", "1", "-1"]
+          ],
+          [
+            ["sp", "2", "44"],
+            ["scroll_Spark of Life", "5", "-1"]
+          ],
+          [
+            ["sp", "2", "55"],
+            ["buff_Spark of Life", "5", "-1"]
+          ]
+        ]
+      },
+      "Mana Potion_2": {
+        "moduleStatus": true,
+        "moduleType": "Mana Potion",
+        "conditions": [
+          [["mp", "2", "40"]],
+          [
+            ["mp", "2", "50"],
+            ["battleType", "5", "tw"]
+          ]
+        ]
+      },
+      "Mana Elixir_3": {
+        "moduleStatus": true,
+        "moduleType": "Mana Elixir",
+        "conditions": [
+          [["mp", "2", "12"]],
+          [
+            ["mp", "2", "28"],
+            ["buff_Spark of Life", "5", "-1"]
+          ]
+        ]
+      },
+      "Cure_4": {
+        "moduleStatus": true,
+        "moduleType": "Cure",
+        "conditions": [
+          [["hp", "2", "45"]],
+          [
+            ["hp", "2", "55"],
+            ["battleType", "5", "tw"],
+            ["totalMon", "5", "aliveMon"]
+          ]
+        ]
+      },
+      "Full-Cure_5": {
+        "moduleStatus": true,
+        "moduleType": "Full-Cure",
+        "conditions": [
+          [["hp", "2", "22"]],
+          [
+            ["hp", "2", "33"],
+            ["battleType", "5", "tw"],
+            ["totalMon", "5", "aliveMon"]
+          ]
+        ]
+      },
+      "Health Potion_6": {
+        "moduleStatus": true,
+        "moduleType": "Health Potion",
+        "conditions": [
+          [["hp", "2", "25"]],
+          [
+            ["hp", "2", "35"],
+            ["battleType", "5", "tw"],
+            ["totalMon", "5", "aliveMon"]
+          ]
+        ]
+      },
+      "Health Elixir_7": {
+        "moduleStatus": true,
+        "moduleType": "Health Elixir",
+        "conditions": [
+          [["hp", "2", "15"]],
+          [
+            ["hp", "2", "25"],
+            ["battleType", "5", "tw"],
+            ["totalMon", "5", "aliveMon"]
+          ]
+        ]
+      }
+    }
+  },
+  "buffs": {
+    "status": true,
+    "modules": {
+      "Health Draught_0": {
+        "moduleStatus": true,
+        "moduleType": "Health Draught",
+        "conditions": [
+          [
+            ["hp", "2", "90"],
+            ["battleType", "5", "tw"]
+          ]
+        ]
+      },
+      "Mana Draught_1": {
+        "moduleStatus": true,
+        "moduleType": "Mana Draught",
+        "conditions": [
+          [["mp", "2", "75"]],
+          [
+            ["mp", "2", "90"],
+            ["battleType", "5", "tw"]
+          ]
+        ]
+      },
+      "Spirit Draught_2": {
+        "moduleStatus": true,
+        "moduleType": "Spirit Draught",
+        "conditions": [
+          [["sp", "2", "70"]],
+          [
+            ["sp", "2", "90"],
+            ["battleType", "5", "tw"]
+          ]
+        ]
+      },
+      "Regen_3": {
+        "moduleStatus": true,
+        "moduleType": "Regen",
+        "conditions": [
+          [
+            ["totalRound", "5", "1"],
+            ["totalBoss", "3", "1"]
+          ],
+          [
+            ["totalRound", "6", "1"],
+            ["curRound", "5", "1"],
+            ["mp", "1", "50"]
+          ],
+          [
+            ["totalRound", "6", "1"],
+            ["aliveMon", "2", "6"],
+            ["mp", "1", "50"]
+          ]
+        ]
+      },
+      "Heartseeker_4": {
+        "moduleStatus": true,
+        "moduleType": "Heartseeker",
+        "conditions": [
+          [
+            ["totalRound", "5", "1"],
+            ["totalBoss", "3", "1"]
+          ],
+          [
+            ["totalRound", "6", "1"],
+            ["curRound", "5", "1"],
+            ["mp", "1", "60"]
+          ],
+          [
+            ["totalRound", "6", "1"],
+            ["aliveMon", "2", "5"],
+            ["mp", "1", "60"]
+          ]
+        ]
+      }
+    }
+  },
+  "scroll": {
+    "status": false,
+    "modules": {}
+  },
+  "debuffs": {
+    "status": true,
+    "modules": {
+      "Sleep_0": {
+        "moduleStatus": true,
+        "moduleType": "Sleep",
+        "targetCount": "3",
+        "selectRange": true,
+        "selectOrder": true,
+        "turnsLeft": "2",
+        "conditions": [[["battleType", "5", "tw"]]]
+      },
+      "Silence_1": {
+        "moduleStatus": true,
+        "moduleType": "Silence",
+        "targetCount": "3",
+        "selectRange": true,
+        "selectOrder": false,
+        "turnsLeft": "1",
+        "conditions": [[["battleType", "5", "tw"]]]
+      },
+      "Weaken_2": {
+        "moduleStatus": true,
+        "moduleType": "Weaken",
+        "targetCount": "3",
+        "selectRange": true,
+        "selectOrder": false,
+        "turnsLeft": "1",
+        "conditions": [
+          [["battleType", "5", "tw"]],
+          [
+            ["totalRound", "5", "95"],
+            ["curRound", "5", "95"]
+          ],
+          [
+            ["battleType", "5", "ar"],
+            ["aliveMon", "3", "6"]
+          ]
+        ]
+      },
+      "Imperil_3": {
+        "moduleStatus": true,
+        "moduleType": "Imperil",
+        "targetCount": "3",
+        "selectRange": false,
+        "selectOrder": false,
+        "turnsLeft": "0",
+        "conditions": [
+          [["isBoss", "5", "1"]],
+          [
+            ["battleType", "5", "tw"],
+            ["mp", "1", "35"],
+            ["mon_hp", "1", "30"]
+          ]
+        ]
+      }
+    }
+  },
+  "skills": {
+    "status": true,
+    "modules": {
+      "Vital Strike_0": {
+        "moduleStatus": true,
+        "moduleType": "Vital Strike",
+        "conditions": [
+          [
+            ["isBoss", "5", "1"],
+            ["mon_hp", "1", "30"],
+            ["debuff_Imperiled", "1", "-1"],
+            ["debuff_Stunned", "1", "-1"],
+            ["debuff_Penetrated Armor", "1", "-1"]
+          ],
+          [
+            ["battleType", "5", "tw"],
+            ["mon_hp", "1", "50"],
+            ["debuff_Imperiled", "1", "-1"],
+            ["debuff_Stunned", "1", "-1"],
+            ["debuff_Penetrated Armor", "1", "-1"]
+          ]
+        ]
+      }
+    }
+  },
+  "staff": {
+    "status": false,
+    "modules": {}
+  }
+}

@@ -1,0 +1,484 @@
+{
+  "fightingStyle": "elec",
+  "defaultAttackMode": "order",
+  "defaultBossPriority": true,
+  "autoNextRound": true,
+  "attackModules": [["gf", "order", false]],
+  "spiritstance": {
+    "status": true,
+    "modules": {
+      "spiriton_0": {
+        "moduleStatus": true,
+        "moduleType": "spiriton",
+        "conditions": [[["oc", "1", "230"]]]
+      }
+    }
+  },
+  "gem": {
+    "status": true,
+    "modules": {
+      "Health Gem_0": {
+        "moduleStatus": true,
+        "moduleType": "Health Gem",
+        "conditions": [
+          [["hp", "2", "60"]],
+          [
+            ["battleType", "5", "ar"],
+            ["hp", "2", "100"]
+          ]
+        ]
+      },
+      "Mana Gem_1": {
+        "moduleStatus": true,
+        "moduleType": "Mana Gem",
+        "conditions": [[["mp", "2", "70"]]]
+      },
+      "Spirit Gem_2": {
+        "moduleStatus": true,
+        "moduleType": "Spirit Gem",
+        "conditions": [
+          [["sp", "2", "85"]],
+          [
+            ["battleType", "5", "ar"],
+            ["sp", "2", "100"]
+          ],
+          [
+            ["battleType", "5", "gf"],
+            ["sp", "2", "100"],
+            ["curRound", "2", "200"]
+          ]
+        ]
+      },
+      "Mystic Gem_3": {
+        "moduleStatus": true,
+        "moduleType": "Mystic Gem",
+        "conditions": []
+      }
+    }
+  },
+  "channel": {
+    "status": true,
+    "modules": {
+      "Arcane Focus_0": {
+        "moduleStatus": true,
+        "moduleType": "Arcane Focus",
+        "conditions": [
+          [
+            ["buff_Arcane Focus", "2", "150"],
+            ["totalMon", "6", "aliveMon"]
+          ],
+          [
+            ["buff_Arcane Focus", "2", "120"],
+            ["aliveMon", "2", "7"]
+          ],
+          [["buff_Arcane Focus", "2", "50"]]
+        ]
+      },
+      "Regen_1": {
+        "moduleStatus": true,
+        "moduleType": "Regen",
+        "conditions": [
+          [
+            ["buff_Regen", "2", "100"],
+            ["totalMon", "6", "aliveMon"]
+          ],
+          [
+            ["buff_Regen", "2", "80"],
+            ["aliveMon", "2", "7"]
+          ],
+          [["buff_Regen", "2", "50"]]
+        ]
+      }
+    }
+  },
+  "recovery": {
+    "status": true,
+    "modules": {
+      "Spirit Potion_0": {
+        "moduleStatus": true,
+        "moduleType": "Spirit Potion",
+        "conditions": [
+          [["sp", "2", "45"]],
+          [
+            ["sp", "2", "55"],
+            ["battleType", "5", "gf"]
+          ]
+        ]
+      },
+      "Last Elixir_1": {
+        "moduleStatus": true,
+        "moduleType": "Last Elixir",
+        "conditions": [
+          [
+            ["sp", "4", "31"],
+            ["scroll_Spark of Life", "5", "-1"],
+            ["curRound", "4", "800"]
+          ],
+          [
+            ["sp", "4", "16"],
+            ["scroll_Spark of Life", "1", "-1"]
+          ],
+          [
+            ["sp", "4", "31"],
+            ["scroll_Spark of Life", "5", "-1"],
+            ["isCD_Scroll of Life", "1", "0"]
+          ]
+        ]
+      },
+      "Spirit Elixir_2": {
+        "moduleStatus": true,
+        "moduleType": "Spirit Elixir",
+        "conditions": [
+          [
+            ["sp", "2", "31"],
+            ["scroll_Spark of Life", "5", "-1"],
+            ["curRound", "4", "800"]
+          ],
+          [
+            ["sp", "2", "16"],
+            ["scroll_Spark of Life", "1", "-1"]
+          ],
+          [
+            ["sp", "2", "31"],
+            ["scroll_Spark of Life", "5", "-1"],
+            ["isCD_Scroll of Life", "1", "0"]
+          ]
+        ]
+      },
+      "Mana Potion_3": {
+        "moduleStatus": true,
+        "moduleType": "Mana Potion",
+        "conditions": [
+          [["mp", "2", "38"]],
+          [
+            ["mp", "2", "45"],
+            ["battleType", "5", "gf"]
+          ],
+          [
+            ["mp", "2", "50"],
+            ["battleType", "5", "gf"],
+            ["curRound", "1", "500"]
+          ]
+        ]
+      },
+      "Mana Elixir_4": {
+        "moduleStatus": true,
+        "moduleType": "Mana Elixir",
+        "conditions": [
+          [["mp", "2", "12"]],
+          [
+            ["mp", "2", "30"],
+            ["buff_Spark of Life", "5", "-1"]
+          ]
+        ]
+      },
+      "Cure_5": {
+        "moduleStatus": true,
+        "moduleType": "Cure",
+        "conditions": [
+          [
+            ["hp", "4", "35"],
+            ["battleType", "6", "gf"]
+          ],
+          [
+            ["hp", "4", "45"],
+            ["hp", "1", "23"],
+            ["battleType", "5", "gf"]
+          ],
+          [
+            ["hp", "4", "48"],
+            ["isCD_Full-Cure", "1", "0"],
+            ["isCD_Health Potion", "1", "0"]
+          ],
+          [
+            ["hp", "4", "48"],
+            ["isCD_Full-Cure", "1", "0"],
+            ["curRound", "3", "700"]
+          ],
+          [
+            ["hp", "4", "55"],
+            ["hp", "1", "23"],
+            ["sp", "4", "45"]
+          ]
+        ]
+      },
+      "Full-Cure_6": {
+        "moduleStatus": true,
+        "moduleType": "Full-Cure",
+        "conditions": [
+          [["hp", "4", "21"]],
+          [
+            ["hp", "4", "23"],
+            ["battleType", "5", "gf"]
+          ]
+        ]
+      },
+      "Health Potion_7": {
+        "moduleStatus": true,
+        "moduleType": "Health Potion",
+        "conditions": [
+          [
+            ["hp", "4", "30"],
+            ["battleType", "6", "gf"]
+          ],
+          [
+            ["hp", "4", "30"],
+            ["hp", "3", "23"]
+          ],
+          [
+            ["hp", "4", "25"],
+            ["isCD_Full-Cure", "1", "0"]
+          ]
+        ]
+      },
+      "Health Elixir_8": {
+        "moduleStatus": true,
+        "moduleType": "Health Elixir",
+        "conditions": [
+          [
+            ["hp", "4", "21"],
+            ["battleType", "6", "gf"]
+          ],
+          [["hp", "4", "2"]]
+        ]
+      }
+    }
+  },
+  "buffs": {
+    "status": true,
+    "modules": {
+      "Health Draught_0": {
+        "moduleStatus": true,
+        "moduleType": "Health Draught",
+        "conditions": [
+          [
+            ["hp", "2", "66"],
+            ["totalRound", "6", "1"]
+          ],
+          [
+            ["hp", "2", "90"],
+            ["battleType", "5", "gf"],
+            ["curRound", "3", "100"]
+          ]
+        ]
+      },
+      "Mana Draught_1": {
+        "moduleStatus": true,
+        "moduleType": "Mana Draught",
+        "conditions": [
+          [
+            ["mp", "2", "88"],
+            ["battleType", "6", "ar"],
+            ["totalRound", "6", "1"]
+          ],
+          [
+            ["mp", "2", "90"],
+            ["battleType", "5", "gf"],
+            ["curRound", "3", "100"]
+          ],
+          [
+            ["mp", "2", "44"],
+            ["battleType", "5", "ar"]
+          ]
+        ]
+      },
+      "Spirit Draught_2": {
+        "moduleStatus": true,
+        "moduleType": "Spirit Draught",
+        "conditions": [
+          [
+            ["sp", "2", "70"],
+            ["totalRound", "6", "1"]
+          ],
+          [
+            ["sp", "2", "90"],
+            ["battleType", "5", "gf"],
+            ["curRound", "3", "500"]
+          ]
+        ]
+      },
+      "Regen_3": {
+        "moduleStatus": true,
+        "moduleType": "Regen",
+        "conditions": [
+          [
+            ["totalRound", "5", "1"],
+            ["totalBoss", "3", "1"]
+          ],
+          [
+            ["totalRound", "6", "1"],
+            ["aliveMon", "3", "4"]
+          ],
+          [
+            ["totalRound", "6", "1"],
+            ["totalBoss", "2", "1"],
+            ["curRound", "5", "1"]
+          ]
+        ]
+      },
+      "Arcane Focus_4": {
+        "moduleStatus": true,
+        "moduleType": "Arcane Focus",
+        "conditions": [
+          [
+            ["totalRound", "5", "1"],
+            ["totalBoss", "3", "1"]
+          ],
+          [
+            ["totalRound", "6", "1"],
+            ["aliveMon", "5", "4"]
+          ],
+          [
+            ["totalRound", "6", "1"],
+            ["totalBoss", "2", "1"],
+            ["curRound", "5", "1"]
+          ]
+        ]
+      }
+    }
+  },
+  "scroll": {
+    "status": true,
+    "modules": {
+      "Scroll of Protection_0": {
+        "moduleStatus": true,
+        "moduleType": "Scroll of Protection",
+        "conditions": [
+          [
+            ["battleType", "5", "gf"],
+            ["curRound", "1", "255"]
+          ]
+        ]
+      },
+      "Scroll of Swiftness_1": {
+        "moduleStatus": true,
+        "moduleType": "Scroll of Swiftness",
+        "conditions": [
+          [
+            ["battleType", "5", "gf"],
+            ["curRound", "1", "255"]
+          ],
+          [["hp", "1", "1"]]
+        ]
+      },
+      "Scroll of Life_2": {
+        "moduleStatus": true,
+        "moduleType": "Scroll of Life",
+        "conditions": [
+          [
+            ["battleType", "5", "gf"],
+            ["sp", "4", "45"],
+            ["isCD_Spirit Potion", "1", "0"]
+          ],
+          [
+            ["curRound", "1", "800"],
+            ["sp", "4", "40"],
+            ["isCD_Spirit Potion", "1", "0"]
+          ]
+        ]
+      },
+      "Scroll of Shadows_3": {
+        "moduleStatus": true,
+        "moduleType": "Scroll of Shadows",
+        "conditions": [
+          [
+            ["battleType", "5", "gf"],
+            ["curRound", "1", "630"]
+          ]
+        ]
+      }
+    }
+  },
+  "debuffs": {
+    "status": true,
+    "modules": {
+      "Silence_0": {
+        "moduleStatus": true,
+        "moduleType": "Silence",
+        "targetCount": "3",
+        "selectRange": true,
+        "selectOrder": false,
+        "turnsLeft": "0",
+        "conditions": [
+          [
+            ["battleType", "5", "ar"],
+            ["totalRound", "5", "100"],
+            ["curRound", "5", "100"]
+          ]
+        ]
+      },
+      "Weaken_1": {
+        "moduleStatus": true,
+        "moduleType": "Weaken",
+        "targetCount": "3",
+        "selectRange": true,
+        "selectOrder": false,
+        "turnsLeft": "0",
+        "conditions": [
+          [
+            ["battleType", "5", "ar"],
+            ["totalRound", "5", "95"],
+            ["curRound", "5", "95"]
+          ],
+          [
+            ["battleType", "5", "ar"],
+            ["totalRound", "5", "100"],
+            ["curRound", "5", "100"]
+          ],
+          [
+            ["battleType", "5", "gf"],
+            ["sp", "2", "41"]
+          ],
+          [
+            ["battleType", "5", "gf"],
+            ["sp", "2", "51"],
+            ["curRound", "3", "600"]
+          ]
+        ]
+      },
+      "Imperil_2": {
+        "moduleStatus": true,
+        "moduleType": "Imperil",
+        "targetCount": "3",
+        "selectRange": true,
+        "selectOrder": false,
+        "turnsLeft": "0",
+        "conditions": [[["battleType", "5", "gf"]]]
+      },
+      "Imperil_3": {
+        "moduleStatus": true,
+        "moduleType": "Imperil",
+        "targetCount": "3",
+        "selectRange": false,
+        "selectOrder": false,
+        "turnsLeft": "0",
+        "conditions": [
+          [
+            ["battleType", "1", "ar"],
+            ["isBoss", "5", "1"]
+          ]
+        ]
+      }
+    }
+  },
+  "skills": {
+    "status": false,
+    "modules": {}
+  },
+  "staff": {
+    "status": true,
+    "modules": {
+      "Ether Tap_0": {
+        "moduleStatus": true,
+        "moduleType": "Ether Tap",
+        "conditions": [
+          [
+            ["mp", "2", "90"],
+            ["aliveMon", "2", "5"],
+            ["battleType", "5", "ar"]
+          ]
+        ]
+      }
+    }
+  }
+}
