@@ -2,7 +2,7 @@
 // @name         HV战斗助手
 // @namespace    battle-helper
 // @description  battle-helper
-// @version      1.2.9
+// @version      1.3.0
 // @author       Silvan009
 // @match        *://*.hentaiverse.org/*
 // @exclude      *hentaiverse.org/equip/*
@@ -1034,267 +1034,9 @@
     ["Power", "Slaughter"],
   ];
 
-  let prices = JSON.parse(localStorage.getItem("hvbs_prices")) || {
-    Stamina: 0,
-    Equipment: {
-      PFUDOR: 508,
-      IWBTH: 460,
-      Nintendo: 400,
-      Hell: 375,
-      Nightmare: 350,
-      Hard: 325,
-      Normal: 300,
-    },
+  let prices = JSON.parse(localStorage.getItem("hvbs_prices")) || {};
 
-    "Health Draught": 1.07,
-    "Health Potion": 19.8,
-    "Health Elixir": 322,
-    "Mana Draught": 16.1,
-    "Mana Potion": 90.5,
-    "Mana Elixir": 344,
-    "Spirit Draught": 43.6,
-    "Spirit Potion": 90,
-    "Spirit Elixir": 890,
-    "Energy Drink": 118000,
-    "Caffeinated Candy": 57500,
-    "Last Elixir": 840,
-    "Infusion of Flames": 63,
-    "Infusion of Frost": 83,
-    "Infusion of Lightning": 179,
-    "Infusion of Storms": 180,
-    "Infusion of Divinity": 294,
-    "Infusion of Darkness": 274,
-    "Scroll of Swiftness": 70,
-    "Scroll of Protection": 206,
-    "Scroll of the Avatar": 496,
-    "Scroll of Absorption": 19,
-    "Scroll of Shadows": 164,
-    "Scroll of Life": 270,
-    "Scroll of the Gods": 448,
-    "Flower Vase": 2400,
-    "Bubble-Gum": 3160,
-
-    "Low-Grade Cloth": 13,
-    "Mid-Grade Cloth": 170,
-    "High-Grade Cloth": 5750,
-    "Low-Grade Leather": 14,
-    "Mid-Grade Leather": 14,
-    "High-Grade Leather": 62,
-    "Low-Grade Metals": 75,
-    "Mid-Grade Metals": 36,
-    "High-Grade Metals": 151,
-    "Low-Grade Wood": 173,
-    "Mid-Grade Wood": 49,
-    "High-Grade Wood": 2020,
-    "Scrap Cloth": 90,
-    "Scrap Leather": 87,
-    "Scrap Metal": 88,
-    "Scrap Wood": 90,
-    "Energy Cell": 181,
-    "Crystallized Phazon": 198000,
-    "Shade Fragment": 1860,
-    "Repurposed Actuator": 18800,
-    "Defense Matrix Modulator": 1800,
-    "Binding of Slaughter": 52000,
-    "Binding of Balance": 795,
-    "Binding of Destruction": 23000,
-    "Binding of Focus": 171,
-    "Binding of Protection": 28800,
-    "Binding of the Fleet": 6950,
-    "Binding of the Barrier": 1640,
-    "Binding of the Nimble": 590,
-    "Binding of the Elementalist": 925,
-    "Binding of the Heaven-sent": 44,
-    "Binding of the Demon-fiend": 32,
-    "Binding of the Curse-weaver": 159,
-    "Binding of the Earth-walker": 32,
-    "Binding of Surtr": 199,
-    "Binding of Niflheim": 42,
-    "Binding of Mjolnir": 132,
-    "Binding of Freyr": 92,
-    "Binding of Heimdall": 63,
-    "Binding of Fenrir": 57,
-    "Binding of Dampening": 1150,
-    "Binding of Stoneskin": 79,
-    "Binding of Deflection": 133,
-    "Binding of the Fire-eater": 30,
-    "Binding of the Frost-born": 29,
-    "Binding of the Thunder-child": 23,
-    "Binding of the Wind-waker": 24,
-    "Binding of the Thrice-blessed": 23,
-    "Binding of the Spirit-ward": 29,
-    "Binding of the Ox": 5250,
-    "Binding of the Raccoon": 4480,
-    "Binding of the Cheetah": 26200,
-    "Binding of the Turtle": 895,
-    "Binding of the Fox": 14700,
-    "Binding of the Owl": 14800,
-    "Binding of Warding": 2880,
-    "Binding of Negation": 244,
-    "Binding of Isaac": 1910,
-    "Binding of Friendship": 121,
-    "Legendary Weapon Core": 3020,
-    "Legendary Staff Core": 7250,
-    "Legendary Armor Core": 1270,
-    "Voidseeker Shard": 160,
-    "Aether Shard": 2220,
-    "Featherweight Shard": 72,
-    "Amnesia Shard": 8300,
-
-    "Tenbora's Box": 18100000,
-    "ManBearPig Tail": 970,
-    "Holy Hand Grenade of Antioch": 970,
-    "Mithra's Flower": 970,
-    "Dalek Voicebox": 970,
-    "Lock of Blue Hair": 965,
-    "Bunny-Girl Costume": 1940,
-    "Hinamatsuri Doll": 1940,
-    "Broken Glasses": 1940,
-    "Black T-Shirt": 4400,
-    Sapling: 4040,
-    "Unicorn Horn": 9300,
-    "Noodly Appendage": 48200,
-    "Platinum Coupon": 1730000,
-    "Gold Coupon": 630000,
-    "Silver Coupon": 55500,
-    "Bronze Coupon": 29800,
-    "AI-Based Captcha Solver": 1210000,
-    "Marten Pelt": 665000,
-
-    "Precursor Artifact": 5250,
-    "Abstract Art of Fire Hydrants": 7950,
-    "Abstract Art of Staircases": 6700,
-    "Abstract Art of Bridges": 6550,
-    "Abstract Art of Crosswalks": 6400,
-    "Abstract Art of Traffic Lights": 6850,
-    "Abstract Art of Bicycles": 6450,
-    "Abstract Art of Tractors": 13100,
-    "Abstract Art of Busses": 13000,
-    "Abstract Art of Motorcycles": 14000,
-
-    "Twilight Sparkle Figurine": 14500,
-    "Rainbow Dash Figurine": 12900,
-    "Applejack Figurine": 14000,
-    "Fluttershy Figurine": 14500,
-    "Pinkie Pie Figurine": 14700,
-    "Rarity Figurine": 13000,
-    "Trixie Figurine": 13500,
-    "Princess Celestia Figurine": 14400,
-    "Princess Luna Figurine": 13000,
-    "Apple Bloom Figurine": 13500,
-    "Scootaloo Figurine": 14000,
-    "Sweetie Belle Figurine": 13800,
-    "Big Macintosh Figurine": 12100,
-    "Spitfire Figurine": 12800,
-    "Derpy Hooves Figurine": 11800,
-    "Lyra Heartstrings Figurine": 12400,
-    "Octavia Figurine": 13400,
-    "Zecora Figurine": 14500,
-    "Cheerilee Figurine": 13500,
-    "Vinyl Scratch Figurine": 12300,
-    "Daring Do Figurine": 13800,
-    "Doctor Whooves Figurine": 13000,
-    "Berry Punch Figurine": 13900,
-    "Bon-Bon Figurine": 13200,
-    "Fluffle Puff Figurine": 12300,
-    "Angel Bunny Figurine": 14200,
-    "Gummy Figurine": 12900,
-
-    Crystal: 1.478,
-    "Crystal of Vigor": 2.9,
-    "Crystal of Finesse": 1.58,
-    "Crystal of Swiftness": 1.35,
-    "Crystal of Fortitude": 2.44,
-    "Crystal of Cunning": 1.23,
-    "Crystal of Knowledge": 1.24,
-    "Crystal of Flames": 1.2,
-    "Crystal of Frost": 1.17,
-    "Crystal of Lightning": 1.17,
-    "Crystal of Tempest": 1.15,
-    "Crystal of Devotion": 1.15,
-    "Crystal of Corruption": 1.16,
-    "Monster Chow": 8.45,
-    "Monster Edibles": 19.6,
-    "Monster Cuisine": 39.4,
-    "Happy Pills": 895,
-
-    Blood: 0,
-    Chaos: 0,
-    Soul: 0,
-  };
-
-  let prices_isekai = JSON.parse(localStorage.getItem("hvbs_prices_isekai")) || {
-    "Health Draught": 12.1,
-    "Health Potion": 39.2,
-    "Health Elixir": 37,
-    "Mana Draught": 37.6,
-    "Mana Potion": 99.5,
-    "Mana Elixir": 200,
-    "Spirit Draught": 49.6,
-    "Spirit Potion": 97.5,
-    "Spirit Elixir": 945,
-    "Infusion of Flames": 15,
-    "Infusion of Frost": 18,
-    "Infusion of Lightning": 23,
-    "Infusion of Storms": 98,
-    "Infusion of Divinity": 32,
-    "Infusion of Darkness": 51,
-    "Scroll of Swiftness": 40,
-    "Scroll of Protection": 132,
-    "Scroll of the Avatar": 200,
-    "Scroll of Absorption": 19,
-    "Scroll of Shadows": 51,
-    "Scroll of Life": 40,
-    "Scroll of the Gods": 90,
-    "Flower Vase": 3080,
-    "Bubble-Gum": 6100,
-
-    "Low-Grade Cloth": 1,
-    "Mid-Grade Cloth": 12,
-    "High-Grade Cloth": 51,
-    "Low-Grade Leather": 10,
-    "Mid-Grade Leather": 128,
-    "High-Grade Leather": 50,
-    "Low-Grade Metals": 13,
-    "Mid-Grade Metals": 256,
-    "High-Grade Metals": 1800,
-    "Low-Grade Wood": 15,
-    "Mid-Grade Wood": 360,
-    "High-Grade Wood": 142,
-    "Scrap Cloth": 90,
-    "Scrap Leather": 90,
-    "Scrap Metal": 99,
-    "Scrap Wood": 67,
-    "Energy Cell": 198,
-    "Crystallized Phazon": 100,
-    "Shade Fragment": 100,
-    "Repurposed Actuator": 114,
-    "Defense Matrix Modulator": 99,
-    "Legendary Weapon Core": 2120,
-    "Legendary Staff Core": 7300,
-    "Legendary Armor Core": 1110,
-    "Voidseeker Shard": 302,
-    "Aether Shard": 1130,
-    "Featherweight Shard": 136,
-    "Amnesia Shard": 143,
-
-    "ManBearPig Tail": 930,
-    "Holy Hand Grenade of Antioch": 930,
-    "Mithra's Flower": 930,
-    "Dalek Voicebox": 930,
-    "Lock of Blue Hair": 905,
-    "Bunny-Girl Costume": 1820,
-    "Hinamatsuri Doll": 1840,
-    "Broken Glasses": 1820,
-    "Black T-Shirt": 3620,
-    Sapling: 3620,
-    "Unicorn Horn": 3700,
-    "Noodly Appendage": 13100,
-
-    Blood: 0,
-    Soul: 0,
-  };
-  prices["Energy Drink"] = 0;
+  let prices_isekai = JSON.parse(localStorage.getItem("hvbs_prices_isekai")) || {};
 
   class BattleStats {
     constructor(json_obj, detail) {
@@ -2052,6 +1794,105 @@
     return menu_list;
   }
 
+  async function parseMarketData() {
+    const baseUrl = location.origin;
+    const suffixUrl = isIsekai ? "isekai/" : "";
+    let urlArray = [
+      `${baseUrl}/${suffixUrl}?s=Bazaar&ss=mk&screen=browseitems&filter=co`,
+      `${baseUrl}/${suffixUrl}?s=Bazaar&ss=mk&screen=browseitems&filter=ma`,
+      `${baseUrl}/${suffixUrl}?s=Bazaar&ss=mk&screen=browseitems&filter=tr`,
+    ];
+    if (!isIsekai) {
+      urlArray = urlArray.concat([
+        `${baseUrl}/?s=Bazaar&ss=mk&screen=browseitems&filter=ar`,
+        `${baseUrl}/?s=Bazaar&ss=mk&screen=browseitems&filter=fi`,
+        `${baseUrl}/?s=Bazaar&ss=mk&screen=browseitems&filter=mo`,
+      ]);
+    }
+    let latestPriceData = {
+      Stamina: 0,
+
+      Blood: 0,
+      Chaos: 0,
+      Soul: 0,
+      Equipment: {
+        PFUDOR: 508,
+        IWBTH: 460,
+        Nintendo: 400,
+        Hell: 375,
+        Nightmare: 350,
+        Hard: 325,
+        Normal: 300,
+      },
+    };
+
+    await Utils.fetchUrls(urlArray).then((results) => {
+      console.log("Utils.fetchUrls Results:");
+      console.log(results);
+
+      for (let result of results) {
+        if (result["status"] === "rejected") {
+          console.error("Fetch error:", result["reason"]);
+          continue;
+        }
+
+        try {
+          let parser = new DOMParser();
+          let doc = parser.parseFromString(result["value"]["responseText"], "text/html");
+          let itemListTrs = doc.querySelectorAll("#market_itemlist > table > tbody > tr");
+
+          itemListTrs.forEach((itemListTr, index) => {
+            if (index === 0) return;
+
+            let itemListTds = itemListTr.querySelectorAll("td");
+            if (itemListTds.length >= 4) {
+              let name = itemListTds[0].textContent.trim();
+              let bid = parseFloat(itemListTds[2].textContent.trim().replace(" C", "").replace(",", ""));
+              let ask = parseFloat(itemListTds[3].textContent.trim().replace(" C", "").replace(",", ""));
+
+              if (!isNaN(bid)) {
+                latestPriceData[name] = bid;
+              } else if (!isNaN(ask)) {
+                latestPriceData[name] = ask;
+              } else {
+                latestPriceData[name] = 0;
+              }
+            }
+          });
+        } catch (e) {
+          console.error("Parsing error for url: " + result["value"]["url"]);
+        }
+      }
+    });
+
+    if (!isIsekai) {
+      const crystalNames = [
+        "Crystal of Vigor",
+        "Crystal of Finesse",
+        "Crystal of Swiftness",
+        "Crystal of Fortitude",
+        "Crystal of Cunning",
+        "Crystal of Knowledge",
+        "Crystal of Flames",
+        "Crystal of Frost",
+        "Crystal of Lightning",
+        "Crystal of Tempest",
+        "Crystal of Devotion",
+        "Crystal of Corruption",
+      ];
+      let Crystaltotal = crystalNames.reduce((sum, name) => sum + (prices[name] || 0), 0);
+      latestPriceData.Crystal = (Crystaltotal / 12).toFixed(3);
+      let staminaPrice = (prices["Energy Drink"] || 0) / 10;
+      latestPriceData.Stamina = staminaPrice;
+      latestPriceData["Energy Drink"] = 0;
+      localStorage.setItem("hvbs_prices", JSON.stringify(latestPriceData));
+    } else {
+      latestPriceData.Stamina = prices.Stamina || 0;
+      localStorage.setItem("hvbs_prices_isekai", JSON.stringify(latestPriceData));
+    }
+    location.reload();
+  }
+
   function getMainContainer(show = false) {
     let container = document.getElementById("hbs_container");
     if (!container) {
@@ -2062,14 +1903,47 @@
       let tableParent = getTableParent();
       container.appendChild(tableParent);
 
-      let exit = document.createElement("button");
-      exit.classList.add("hbs-exit");
+      const buttonsContainer = document.createElement("div");
+      buttonsContainer.classList.add("hbs-buttons-container");
+
+      const exit = document.createElement("button");
       exit.innerText = "Close";
       exit.addEventListener("click", function () {
         getMainContainer(false);
       });
 
-      container.appendChild(exit);
+      const updateBtn = document.createElement("button");
+      updateBtn.innerText = "Update Price";
+      updateBtn.addEventListener("click", function () {
+        parseMarketData();
+      });
+
+      const viewBtn = document.createElement("button");
+      viewBtn.innerText = "View Price";
+      viewBtn.addEventListener("click", function () {
+        const savedPrices = JSON.parse(localStorage.getItem("hvbs_prices")) || {};
+        const savedPricesIsekai = JSON.parse(localStorage.getItem("hvbs_prices_isekai")) || {};
+        const message = `📋 本地存储的价格：\n\n主世界价格:\n${JSON.stringify(savedPrices, null, 2)}\n\nisekai价格:\n${JSON.stringify(savedPricesIsekai, null, 2)}`;
+        console.log(message);
+        alert("📋 控制台Console查看！");
+      });
+
+      const deleteBtn = document.createElement("button");
+      deleteBtn.innerText = "Delete Price";
+      deleteBtn.addEventListener("click", function () {
+        localStorage.removeItem("hvbs_prices");
+        localStorage.removeItem("hvbs_prices_isekai");
+
+        alert("❌ 已清空所有存储的价格！");
+        location.reload();
+      });
+
+      buttonsContainer.appendChild(exit);
+      buttonsContainer.appendChild(updateBtn);
+      buttonsContainer.appendChild(viewBtn);
+      buttonsContainer.appendChild(deleteBtn);
+
+      container.appendChild(buttonsContainer);
     }
 
     if (show) {
@@ -2860,7 +2734,10 @@
     GM_addStyle(
       "#hbs_container {position: absolute; visibility: hidden; top: 5%; left:3%; width: 90%; height: 90%; overflow-y: auto; background-color: #E3E0D1; color: black; text-align: center; padding: 10px 30px 10px 30px; border-radius: 6px; font-size: 8pt;}",
     );
-    GM_addStyle(".hbs-exit {position: absolute; top: 10px; left: 10px;}");
+    GM_addStyle(
+      ".hbs-buttons-container {position: absolute; top: 10px; left: 10px; display: flex; flex-direction: column; align-items: flex-start; gap: 5px;}",
+    );
+    GM_addStyle(".hbs-buttons-container button {width: 120px;}");
     GM_addStyle(".hbs-table {font-size: 8pt}");
 
     GM_addStyle(".hbs_menu ul {list-style: none; padding: 0; line-height: 18px;}");
@@ -4278,6 +4155,29 @@
       }
       return null;
     },
+
+    delay: (ms) => new Promise((r) => setTimeout(r, ms)),
+
+    async fetchUrls(urlArray, interval = 250) {
+      const tasks = urlArray.map((url, index) =>
+        (async () => {
+          await Utils.delay(index * interval);
+          console.info("fetchUrls:", url);
+
+          const res = await fetch(url);
+          if (!res.ok) {
+            throw { url, status: res.status };
+          }
+
+          return {
+            url,
+            responseText: await res.text(),
+          };
+        })(),
+      );
+
+      return Promise.allSettled(tasks);
+    },
   };
 
   function updateLogTitle() {
@@ -4688,7 +4588,7 @@
           if (!drop[4]) {
             let quality = drop[3].match(regExp.quality)?.[1];
             if (quality) {
-              droplog.quality = (droplog.quality ?? 0) + 1;
+              droplog[quality] = (droplog[quality] ?? 0) + 1;
               droplog.Equips[drop[3]] = (droplog.Equips[drop[3]] ?? 0) + 1;
             } else {
               droplog.Material = (droplog.Material ?? 0) + (parseInt(drop[1]) || 1);
@@ -5233,4 +5133,3 @@
 
   init();
 })();
-
