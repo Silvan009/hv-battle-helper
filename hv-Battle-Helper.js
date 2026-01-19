@@ -1939,9 +1939,11 @@
       });
 
       buttonsContainer.appendChild(exit);
-      buttonsContainer.appendChild(updateBtn);
-      buttonsContainer.appendChild(viewBtn);
-      buttonsContainer.appendChild(deleteBtn);
+      if (!log) {
+        buttonsContainer.appendChild(updateBtn);
+        buttonsContainer.appendChild(viewBtn);
+        buttonsContainer.appendChild(deleteBtn);
+      }
 
       container.appendChild(buttonsContainer);
     }
@@ -5133,3 +5135,4 @@
 
   init();
 })();
+
