@@ -5175,7 +5175,7 @@
 
       if (spells) {
         const staffCfg = cfgBattle.staff;
-        if (staffCfg?.status && hvBH.stackEffectObj["Ether Tap"] < 2) {
+        if (staffCfg?.status && ConditionsUtils.getBuffTurns("Ether Tap") < 2) {
           for (const [moduleName, module] of Object.entries(staffCfg.modules)) {
             if (!moduleName.startsWith("Ether Tap")) continue;
             if (!module?.moduleStatus) continue;
@@ -5233,3 +5233,4 @@
 
   init();
 })();
+
