@@ -34,7 +34,8 @@
 | `mon_sp` | 整数 | 当前目标怪物的灵力值百分比 |
 | `isBoss` | 整数 (0/1) | 当前目标怪物是否为 Boss（0 表示不是 boss，1 表示 boss） |
 | `debuff_<debuffname>` | 整数 | 当前目标怪物身上特定增益/减益的剩余回合数（-1 表示无此效果）。例如：`debuff_Weakened`（虚弱） |
-| `allRange_<debuffname>` | 整数 | 选择“全体”减益效果时，需要覆盖范围减少。输入≤2的值。如果场上未被此增益效果覆盖的怪物数量为2个或更少，则不会施放该技能。  |
+| `allRange_<debuffname>` | 整数 | 当前未覆盖该debuff怪兽数量。例如：`allRange_Weakened`  |
+
 
 
 
