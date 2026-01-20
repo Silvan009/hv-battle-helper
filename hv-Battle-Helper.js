@@ -160,7 +160,21 @@
     },
   };
 
+  let pauseBtn;
   let PauseBattle = getBattle(PAUSE_KEY, false);
+  function refreshPause() {
+    if (pauseBtn) {
+      pauseBtn.textContent = PauseBattle ? "▶" : "⏸";
+      pauseBtn.setAttribute("data-paused", PauseBattle ? "true" : "false");
+    }
+  }
+
+  function togglePauseBattle() {
+    PauseBattle = !PauseBattle;
+    setBattle(PAUSE_KEY, PauseBattle);
+    refreshPause();
+    if (!PauseBattle) startBattle();
+  }
 
   function renderBoxUI(Type = 1) {
     const settingHTML = `<button class="bh-setting" id="bh-setting">BH</button>`;
@@ -176,36 +190,14 @@
     document.getElementById("bh-setting").onclick = () => panel.classList.toggle("show");
     addMenuIntegration();
 
-    const pauseBtn = document.getElementById("bh-pause");
+    pauseBtn = document.getElementById("bh-pause");
     if (pauseBtn) {
-      const refreshPause = () => {
-        pauseBtn.textContent = PauseBattle ? "▶" : "⏸";
-        pauseBtn.setAttribute("data-paused", PauseBattle ? "true" : "false");
-      };
       refreshPause();
-
-      function togglePauseBattle() {
-        PauseBattle = !PauseBattle;
-        setBattle(PAUSE_KEY, PauseBattle);
-        refreshPause();
-        startBattle();
-      }
       pauseBtn.onclick = togglePauseBattle;
       document.addEventListener("keydown", function (e) {
         if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA") return;
         if (e.key === "m") togglePauseBattle();
       });
-
-      if (!cfgBattle) {
-        if (!PauseBattle) {
-          setBattle(PAUSE_KEY, true);
-          refreshPause();
-        }
-
-        alert(
-          "⚠️ HV战斗助手配置初始化\n\n检测到首次使用或配置丢失，已创建默认配置。\n\n请点击脚本图标打开配置界面，根据需要进行个性化设置。",
-        );
-      }
     }
   }
 
@@ -1944,7 +1936,6 @@
         buttonsContainer.appendChild(viewBtn);
         buttonsContainer.appendChild(deleteBtn);
       }
-
       container.appendChild(buttonsContainer);
     }
 
@@ -3630,7 +3621,7 @@
       hvBH.stackEffectObj = stackEffectObj;
     },
     getActionCooldowns() {
-      function scan({ selector, regexp, getName }) {
+      function scan({ selector, regexp, getName, getInitlCooldown }) {
         let result = {};
 
         for (const slot of document.querySelectorAll(selector)) {
@@ -3651,8 +3642,10 @@
             cooldown = 0;
             result[name] = 0;
           } else {
-            cooldown = 1;
-            result[name] = 1;
+            let lastUse = timelog.lastUse[name] ?? -Infinity;
+            let initCooldown = getInitlCooldown(matches) ?? 0;
+            cooldown = lastUse + initCooldown - timelog.turn;
+            result[name] = cooldown > 0 ? cooldown : 99;
           }
         }
         return result;
@@ -3662,12 +3655,14 @@
         selector: ".bts > div[onmouseover]",
         regexp: regExp.spellInfo,
         getName: (m) => m[1],
+        getInitlCooldown: (m) => (m ? +m[5] : 0),
       });
 
       let itemCooldowns = scan({
         selector: ".bti3 > div",
         regexp: regExp.itemInfo,
         getName: (m) => itemMap[+m[1]],
+        getInitlCooldown: () => 40,
       });
 
       hvBH.spellCD = spellCooldowns;
@@ -3913,6 +3908,7 @@
       let count = 0;
 
       for (const monster of hvBH.monsters) {
+        if (!monster.isAlive) continue;
         if (this.getDebuffTurns(debuffName, monster) < 0) {
           count++;
         }
@@ -4849,16 +4845,14 @@
     }
 
     let round = log.innerHTML.match(regExp.round);
-    if (hvBH.battleType !== "re") {
-      if (round) {
-        hvBH.curRound = +round[1];
-        hvBH.totalRound = +round[2];
-        setBattle("curRound", hvBH.curRound);
-        setBattle("totalRound", hvBH.totalRound);
-      } else {
-        hvBH.curRound = getBattle("curRound", 1);
-        hvBH.totalRound = getBattle("totalRound", 1);
-      }
+    if (round) {
+      hvBH.curRound = +round[1];
+      hvBH.totalRound = +round[2];
+      setBattle("curRound", hvBH.curRound);
+      setBattle("totalRound", hvBH.totalRound);
+    } else {
+      hvBH.curRound = getBattle("curRound", 1);
+      hvBH.totalRound = getBattle("totalRound", 1);
     }
 
     let matches;
@@ -4942,12 +4936,65 @@
   }
 
   function startBattle() {
+    if (!cfgBattle) {
+      PauseBattle = true;
+      setBattle(PAUSE_KEY, true);
+      refreshPause();
+
+      alert(
+        "⚠️ HV战斗助手配置初始化\n\n检测到首次使用或配置丢失，已创建默认配置。\n\n请点击脚本图标打开配置界面，根据需要进行个性化设置。",
+      );
+    }
     if (!PauseBattle) {
       let btcp = document.querySelector("#btcp");
       let finishBattle = document.querySelector('img[src$="finishbattle.png"]');
       if (hvBH.aliveMon <= 0) {
         if (cfgBattle.autoNextRound && btcp && !finishBattle) {
-          setBattle(PAUSE_KEY, true);
+          PauseBattle = true;
+          refreshPause();
+
+          storeTmp();
+          btcp.onclick = async function () {
+            try {
+              const res = await fetch(document.location.href);
+              if (!res.ok) throw res.status;
+
+              const html = await res.text();
+              const doc = new DOMParser().parseFromString(html, "text/html");
+
+              if (doc.getElementById("riddlemaster")) {
+                location.reload();
+                return;
+              }
+
+              const newMain = doc.getElementById("mainpane");
+              const curMain = document.getElementById("mainpane");
+
+              if (!newMain || !curMain) {
+                throw "mainpane not found";
+              }
+
+              curMain.innerHTML = newMain.innerHTML;
+
+              const script = document.createElement("script");
+              script.type = "text/javascript";
+              script.innerHTML = `
+                var t = setTimeout(function(){}, 0);
+                for (var i = t; i > 0 && i > t - 100; i--) clearInterval(i);
+                battle = new Battle();
+              `;
+
+              curMain.appendChild(script);
+
+              document.dispatchEvent(new Event("DOMContentLoaded"));
+
+              setTimeout(() => {
+                preBattle();
+              }, 0);
+            } catch (err) {
+              alert("error during round transition: code " + err);
+            }
+          };
           btcp.click();
           btcp.style.visibility = "hidden";
         }
@@ -5135,4 +5182,3 @@
 
   init();
 })();
-
