@@ -85,7 +85,12 @@
             ["buff_Heartseeker", "2", "120"],
             ["aliveMon", "2", "7"]
           ],
-          [["buff_Heartseeker", "2", "50"]]
+          [["buff_Heartseeker", "2", "50"]],
+          [
+            ["buff_Channeling", "2", "2"],
+            ["totalMon", "6", "aliveMon"],
+            ["buff_Heartseeker", "2", "500"]
+          ]
         ]
       },
       "Regen_1": {
@@ -100,7 +105,23 @@
             ["buff_Regen", "2", "80"],
             ["aliveMon", "2", "7"]
           ],
-          [["buff_Regen", "2", "50"]]
+          [["buff_Regen", "2", "50"]],
+          [
+            ["buff_Channeling", "2", "2"],
+            ["totalMon", "6", "aliveMon"],
+            ["buff_Regen", "2", "500"]
+          ]
+        ]
+      },
+      "Absorb_2": {
+        "moduleStatus": true,
+        "moduleType": "Absorb",
+        "conditions": [
+          [
+            ["buff_Channeling", "2", "1"],
+            ["totalMon", "6", "aliveMon"],
+            ["buff_Absorb", "2", "0"]
+          ]
         ]
       }
     }
@@ -288,8 +309,62 @@
     }
   },
   "scroll": {
-    "status": false,
-    "modules": {}
+    "status": true,
+    "modules": {
+      "Scroll of Protection_0": {
+        "moduleStatus": true,
+        "moduleType": "Scroll of Protection",
+        "conditions": [
+          [
+            ["battleType", "5", "tw"],
+            ["totalMon", "5", "aliveMon"],
+            ["totalMon", "1", "6"],
+            ["curRound", "1", "40"],
+            ["sp", "2", "50"]
+          ]
+        ]
+      },
+      "Scroll of Swiftness_1": {
+        "moduleStatus": true,
+        "moduleType": "Scroll of Swiftness",
+        "conditions": [
+          [
+            ["battleType", "5", "tw"],
+            ["totalMon", "5", "aliveMon"],
+            ["totalMon", "1", "6"],
+            ["curRound", "1", "40"],
+            ["sp", "2", "50"]
+          ]
+        ]
+      },
+      "Scroll of Shadows_2": {
+        "moduleStatus": true,
+        "moduleType": "Scroll of Shadows",
+        "conditions": [
+          [
+            ["battleType", "5", "tw"],
+            ["totalMon", "5", "aliveMon"],
+            ["totalMon", "1", "6"],
+            ["curRound", "1", "40"],
+            ["sp", "2", "50"]
+          ]
+        ]
+      },
+      "Scroll of Life_3": {
+        "moduleStatus": true,
+        "moduleType": "Scroll of Life",
+        "conditions": [
+          [
+            ["battleType", "5", "tw"],
+            ["totalMon", "5", "aliveMon"],
+            ["totalMon", "1", "6"],
+            ["curRound", "1", "35"],
+            ["sp", "2", "60"],
+            ["isCD_Spirit Potion", "1", "0"]
+          ]
+        ]
+      }
+    }
   },
   "debuffs": {
     "status": true,
@@ -300,8 +375,13 @@
         "targetCount": "3",
         "selectRange": true,
         "selectOrder": true,
-        "turnsLeft": "2",
-        "conditions": [[["battleType", "5", "tw"]]]
+        "turnsLeft": "1",
+        "conditions": [
+          [
+            ["battleType", "5", "tw"],
+            ["aliveMon", "1", "2"]
+          ]
+        ]
       },
       "Silence_1": {
         "moduleStatus": true,
