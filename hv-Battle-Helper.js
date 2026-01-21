@@ -2,7 +2,7 @@
 // @name         HV战斗助手
 // @namespace    battle-helper
 // @description  battle-helper
-// @version      1.3.0
+// @version      1.3.1
 // @author       Silvan009
 // @match        *://*.hentaiverse.org/*
 // @exclude      *hentaiverse.org/equip/*
@@ -1673,6 +1673,9 @@
       bs_menu.classList.add("hbs_menu");
       let title_span = document.createElement("span");
       title_span.innerText = "BS";
+      title_span.addEventListener("click", function () {
+        getMainContainer(false);
+      });
       let menu_list = generateMenuItems("hbs-menu-list", true);
 
       bs_menu.appendChild(title_span);
@@ -3705,14 +3708,14 @@
 
         let monster_btm4 = monster_btm1.querySelector(".btm4");
         let healthBar = monster_btm4.querySelector('img[src$="nbargreen.png"]');
-        monster.hp = Math.round((parseInt(healthBar?.style.width, 10) / 120) * 100) / 100 || 0;
+        monster.hp = Math.round((parseInt(healthBar?.style.width, 10) / 120) * 100) || 0;
         let manaBar = monster_btm4.querySelector('img[src$="nbarblue.png"]');
-        monster.mp = Math.round((parseInt(manaBar?.style.width, 10) / 120) * 100) / 100 || 0;
+        monster.mp = Math.round((parseInt(manaBar?.style.width, 10) / 120) * 100) || 0;
         let spiritBar = monster_btm4.querySelector('img[src$="nbarred.png"]');
-        monster.sp = Math.round((parseInt(spiritBar?.style.width, 10) / 120) * 100) / 100 || 0;
+        monster.sp = Math.round((parseInt(spiritBar?.style.width, 10) / 120) * 100) || 0;
 
         monster.maxhp = hvBH.monsterData?.[index]?.maxhp ?? 300000;
-        monster.curhp = monster.hp * monster.maxhp;
+        monster.curhp = (monster.hp * monster.maxhp) / 100;
         monster.mid = hvBH.monsterData?.[index]?.mid ?? 0;
 
         let monster_btm6 = monster_btm1.querySelector(".btm6");
@@ -3730,11 +3733,39 @@
         monsters.push(monster);
       });
 
+      let aliveMon = 0;
+      let totalBoss = 0;
+      let aliveBoss = 0;
+      let minIdx = Infinity;
+      let maxIdx = -Infinity;
+      let maxCurHp = -Infinity;
+      let maxMaxHp = -Infinity;
+      let maxHpPercentage = -Infinity;
+
+      for (const m of monsters) {
+        if (m.isAlive) {
+          aliveMon++;
+          maxCurHp = Math.max(maxCurHp, m.curhp || 0);
+          maxMaxHp = Math.max(maxMaxHp, m.maxhp || 0);
+          maxHpPercentage = Math.max(maxHpPercentage, m.hp || 0);
+          if (m.isBoss) aliveBoss++;
+          if (m.index < minIdx) minIdx = m.index;
+          if (m.index > maxIdx) maxIdx = m.index;
+        }
+
+        if (m.isBoss) totalBoss++;
+      }
+
       hvBH.monsters = monsters;
       hvBH.totalMon = monsters.length;
-      hvBH.aliveMon = monsters.filter((monsters) => monsters.isAlive).length;
-      hvBH.totalBoss = monsters.filter((monsters) => monsters.isBoss).length;
-      hvBH.aliveBoss = monsters.filter((monster) => monster.isAlive && monster.isBoss).length;
+      hvBH.aliveMon = aliveMon;
+      hvBH.totalBoss = totalBoss;
+      hvBH.aliveBoss = aliveBoss;
+      hvBH.minIdx = minIdx;
+      hvBH.maxIdx = maxIdx;
+      hvBH.maxCurHp = maxCurHp === -Infinity ? 0 : maxCurHp;
+      hvBH.maxMaxHp = maxMaxHp === -Infinity ? 0 : maxMaxHp;
+      hvBH.maxHpPercentage = maxHpPercentage === -Infinity ? 0 : maxHpPercentage;
     },
 
     getAttackMode() {
@@ -3793,13 +3824,20 @@
         return this.getUncoveredCount(key.slice(9));
       }
 
+      if (key.startsWith("allInRange_")) {
+        return Number(this.canCoverAllAlive(Number(key.slice(11))));
+      }
+
+      if (key == "allmon_curhp") return hvBH.maxCurHp;
+      if (key == "allmon_maxhp") return hvBH.maxMaxHp;
+      if (key == "allmon_hp") return hvBH.maxHpPercentage;
+
       if (curMon) {
         if (key == "mon_curhp") return curMon.curhp;
-        if (key === "mon_maxhp") return curMon.maxhp;
-
-        if (key == "mon_hp") return curMon.hp * 100;
-        if (key == "mon_mp") return curMon.mp * 100;
-        if (key == "mon_sp") return curMon.sp * 100;
+        if (key == "mon_maxhp") return curMon.maxhp;
+        if (key == "mon_hp") return curMon.hp;
+        if (key == "mon_mp") return curMon.mp;
+        if (key == "mon_sp") return curMon.sp;
         if (key == "isBoss") return Number(curMon.isBoss);
 
         if (key.startsWith("debuff_")) {
@@ -3885,6 +3923,7 @@
       const effects = monster?.effectObj;
 
       if (!effect || !effects) return -1;
+      if (effects.length >= 6) return 999;
       if (statusName != "Sleep" && isSleep && effects.Asleep !== undefined) return 999;
 
       if (Array.isArray(effect)) {
@@ -3915,6 +3954,23 @@
       }
 
       return count;
+    },
+
+    canCoverAllAlive(range) {
+      for (const m of hvBH.monsters) {
+        if (!m.isAlive) continue;
+        const c = m.index;
+        const left = Math.floor(range / 2);
+        const right = range % 2 === 0 ? left - 1 : left;
+        let s = c - left,
+          e = c + right;
+        if (s < 0) {
+          e += -s;
+          s = 0;
+        }
+        if (s <= hvBH.minIdx && e >= hvBH.maxIdx) return true;
+      }
+      return false;
     },
 
     check(conditions) {
@@ -4268,6 +4324,10 @@
       if (!regExp.zeroturn.test(action) || use.includes("Gem")) {
         Utils.inc(combatlog.used, use);
         Utils.inc(actionCounts, use);
+        if (use.includes("Gem")) {
+          const ikey = document.getElementById("ikey_p");
+          if (ikey) ikey.remove();
+        }
       }
     } else if (action.includes("Spirit Stance Engaged")) {
       Utils.inc(combatlog.used, "Spirit");
@@ -4287,6 +4347,11 @@
       Utils.inc(combatlog.used, "Cloak of the Fallen");
       Utils.inc(actionCounts, "Cloak of the Fallen");
       timelog.spark = (timelog.spark ?? 0) + 1;
+    }
+
+    if (turnLog.includes("You do not have a powerup gem.")) {
+      const ikey = document.getElementById("ikey_p");
+      if (ikey) ikey.remove();
     }
 
     let damage = turnLog.match(regExp.damage);
@@ -4399,6 +4464,10 @@
       if (!regExp.zeroturn.test(action) || use.includes("Gem")) {
         Utils.inc(combatlog.used, use);
         Utils.inc(actionCounts, use);
+        if (use.includes("Gem")) {
+          const ikey = document.getElementById("ikey_p");
+          if (ikey) ikey.remove();
+        }
       }
     } else if (action.includes("Spirit Stance Engaged")) {
       Utils.inc(combatlog.used, "Spirit");
@@ -4417,6 +4486,12 @@
     if (turnLog.includes("You gain the effect Cloak of the Fallen.")) {
       Utils.inc(combatlog.used, "Cloak of the Fallen");
       Utils.inc(actionCounts, "Cloak of the Fallen");
+      timelog.spark = (timelog.spark ?? 0) + 1;
+    }
+
+    if (turnLog.includes("You do not have a powerup gem.")) {
+      const ikey = document.getElementById("ikey_p");
+      if (ikey) ikey.remove();
     }
 
     let damage = turnLog.match(regExp.damage_isekai);
@@ -4689,6 +4764,7 @@
       let equip_set = getStorage(CONFIG_KEY, "equip_set") || [];
       const currentUrl = window.location.href;
 
+      if (/battle_stats/i.test(currentUrl)) return;
       if (/Battle/i.test(currentUrl)) {
         let levelReadout = document.querySelector("#level_readout > div > div")?.innerText;
         let playerInfo = levelReadout.match(regExp.playerInfo);
@@ -4978,11 +5054,7 @@
 
               const script = document.createElement("script");
               script.type = "text/javascript";
-              script.innerHTML = `
-                var t = setTimeout(function(){}, 0);
-                for (var i = t; i > 0 && i > t - 100; i--) clearInterval(i);
-                battle = new Battle();
-              `;
+              script.innerHTML = `battle = new Battle();`;
 
               curMain.appendChild(script);
 
