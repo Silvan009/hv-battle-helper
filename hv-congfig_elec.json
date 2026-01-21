@@ -38,10 +38,7 @@
         "moduleType": "Spirit Gem",
         "conditions": [
           [["sp", "2", "85"]],
-          [
-            ["battleType", "5", "ar"],
-            ["sp", "2", "100"]
-          ],
+          [["battleType", "5", "ar"]],
           [
             ["battleType", "5", "gf"],
             ["sp", "2", "100"],
@@ -447,8 +444,31 @@
     }
   },
   "skills": {
-    "status": false,
-    "modules": {}
+    "status": true,
+    "modules": {
+      "Shockblast_0": {
+        "moduleStatus": true,
+        "moduleType": "Shockblast",
+        "targetCount": "5",
+        "conditions": [
+          [
+            ["allmon_curhp", "2", "120000"],
+            ["allInRange_5", "5", "1"]
+          ]
+        ]
+      },
+      "Chained Lightning_1": {
+        "moduleStatus": true,
+        "moduleType": "Chained Lightning",
+        "targetCount": "7",
+        "conditions": [
+          [
+            ["allmon_curhp", "2", "165000"],
+            ["allInRange_7", "5", "1"]
+          ]
+        ]
+      }
+    }
   },
   "staff": {
     "status": true,
