@@ -33,11 +33,14 @@
 | `mon_hp` | 整数 | 当前目标怪物的生命值百分比 |
 | `mon_mp` | 整数 | 当前目标怪物的法力值百分比 |
 | `mon_sp` | 整数 | 当前目标怪物的灵力值百分比 |
+| `allmon_curhp` | 整数 | 全部目标怪物的绝对生命值 |
+| `allmon_maxhp` | 整数 | 全部目标怪物的最大生命值 |
+| `allmon_hp` | 整数 | 全部目标怪物的生命值百分比 |
 | `isBoss` | 整数 (0/1) | 当前目标怪物是否为 Boss（0 表示不是 boss，1 表示 boss） |
-| `HighestCurhp` | 整数 | 全部怪物里最高绝对生命值  |
 | `debuff_<debuffname>` | 整数 | 当前目标怪物身上特定增益/减益的剩余回合数（-1 表示无此效果）。例如：`debuff_Weakened`（虚弱） |
 | `allRange_<debuffname>` | 整数 | 当前未覆盖该debuff怪兽数量。例如：`allRange_Weakened`  |
 | `allInRange_<SkillRange>` | 整数 (0/1) | 全部怪物在不在技能范围里（0 表示不在，1 表示范围里）。例如：`allInRange_3` |
+
 
 
 
