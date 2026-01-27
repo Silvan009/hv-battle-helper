@@ -481,13 +481,26 @@
         ]
       },
       "Corruption_2": {
-        "moduleStatus": false,
+        "moduleStatus": true,
         "moduleType": "Corruption",
         "targetCount": "5",
         "conditions": [
           [
+            ["battleType", "5", "ar"],
             ["aliveMon", "2", "5"],
             ["roundUsed_Corruption", "2", "1"]
+          ]
+        ]
+      },
+      "Smite_3": {
+        "moduleStatus": true,
+        "moduleType": "Smite",
+        "targetCount": "5",
+        "conditions": [
+          [
+            ["battleType", "5", "ar"],
+            ["aliveMon", "2", "5"],
+            ["roundUsed_Smite", "2", "1"]
           ]
         ]
       }
