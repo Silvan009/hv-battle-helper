@@ -22,7 +22,7 @@
 | `isCD_<name>` | 整数  | 玩家特定技能或道具的冷却时间（0 表示未冷却可以使用）。`<name>` 需替换为具体技能或道具名  |
 | `buff_<buffname>` | 整数 | 玩家身上特定增益/减益的剩余回合数（-1 表示无此效果）。例如：`buff_Regen`（再生） |
 | `scroll_<name>` | 整数 | 玩家身上特定卷轴的剩余回合数（-1 表示无此效果）。例如：`scroll_Spark of Life`（再生） |
-| `turnUsed_<name>` | 整数 | 玩家特定技能或道具每回合使用次数限制 |
+| `roundUsed_<name>` | 整数 | 玩家特定技能或道具每回合使用次数限制 |
 
 
 ## 怪物状态
@@ -40,6 +40,7 @@
 | `debuff_<debuffname>` | 整数 | 当前目标怪物身上特定增益/减益的剩余回合数（-1 表示无此效果）。例如：`debuff_Weakened`（虚弱） |
 | `allRange_<debuffname>` | 整数 | 当前未覆盖该debuff怪兽数量。例如：`allRange_Weakened`  |
 | `allInRange_<SkillRange>` | 整数 (0/1) | 全部怪物在不在技能范围里（0 表示不在，1 表示范围里）。例如：`allInRange_3` |
+
 
 
 
