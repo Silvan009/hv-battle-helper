@@ -1,8 +1,8 @@
 // ==UserScript==
-// @name         HV战斗助手
+// @name         HV 战斗助手
 // @namespace    battle-helper
 // @description  battle-helper
-// @version      1.3.1
+// @version      1.3.0
 // @author       Silvan009
 // @match        *://*.hentaiverse.org/*
 // @exclude      *hentaiverse.org/equip/*
@@ -1806,6 +1806,7 @@
     }
     let latestPriceData = {
       Stamina: 0,
+      Crystal: 0,
 
       Blood: 0,
       Chaos: 0,
@@ -1861,22 +1862,6 @@
     });
 
     if (!isIsekai) {
-      const crystalNames = [
-        "Crystal of Vigor",
-        "Crystal of Finesse",
-        "Crystal of Swiftness",
-        "Crystal of Fortitude",
-        "Crystal of Cunning",
-        "Crystal of Knowledge",
-        "Crystal of Flames",
-        "Crystal of Frost",
-        "Crystal of Lightning",
-        "Crystal of Tempest",
-        "Crystal of Devotion",
-        "Crystal of Corruption",
-      ];
-      let Crystaltotal = crystalNames.reduce((sum, name) => sum + (prices[name] || 0), 0);
-      latestPriceData.Crystal = (Crystaltotal / 12).toFixed(3);
       let staminaPrice = (prices["Energy Drink"] || 0) / 10;
       latestPriceData.Stamina = staminaPrice;
       latestPriceData["Energy Drink"] = 0;
@@ -3817,7 +3802,11 @@
       }
 
       if (key.startsWith("scroll_")) {
-        return this.getScrollTurns(key.slice(5));
+        return this.getScrollTurns(key.slice(7));
+      }
+
+      if (key.startsWith("roundUsed_")) {
+        return this.getRoundUsed(key.slice(10));
       }
 
       if (key.startsWith("allRange_")) {
@@ -3882,6 +3871,10 @@
         canUse: false,
         cd: 1,
       };
+    },
+
+    getRoundUsed(name) {
+      return timelog.roundUsed[name] ?? 0;
     },
 
     getScrollTurns(statusName) {
@@ -4302,6 +4295,7 @@
 
     if (!regExp.zeroturn.test(action)) timelog["turn"] += 1;
     if (use) timelog["lastUse"][use] = timelog["turn"];
+    if (use) timelog["roundUsed"][use] = (timelog["roundUsed"][use] ?? 0) + 1;
   }
 
   function riddleRecorder() {
@@ -4313,6 +4307,7 @@
         horse: 0,
         spark: 0,
         lastUse: {},
+        roundUsed: {},
       };
     }
     timelog["horse"] += 1;
@@ -4782,6 +4777,7 @@
       renderBoxUI(1);
 
       GM_deleteValue(BATTLE_KEY);
+      localStorage.removeItem(LOG_KEY);
     }
     return;
   }
@@ -4793,7 +4789,7 @@
     const eqbElements = document.querySelectorAll("#eqsb .eqb");
 
     eqbElements.forEach((eqb) => {
-      const equipDiv = eqb.querySelector("div:nth-child(2)");
+      const equipDiv = eqb.querySelector("div[onmouseover]");
 
       if (equipDiv && equipDiv.hasAttribute("onmouseover")) {
         const onmouseoverAttr = equipDiv.getAttribute("onmouseover");
@@ -4830,8 +4826,10 @@
         horse: 0,
         spark: 0,
         lastUse: {},
+        roundUsed: {},
       };
     }
+    timelog.roundUsed = {};
 
     combatlog = getStorage(LOG_KEY, "combatlog");
     if (Utils.isEmpty(combatlog)) {
@@ -5064,7 +5062,7 @@
                 preBattle();
               }, 0);
             } catch (err) {
-              alert("error during round transition: code " + err);
+              console.log("error during round transition: code " + err);
             }
           };
           btcp.click();
@@ -5216,12 +5214,23 @@
           const cdInfo = ConditionsUtils.checkCD(spell);
           if (!cdInfo.canUse) continue;
 
-          const module = staffCfg?.modules?.[3 - index];
-          const pass = !module || (module.status && ConditionsUtils.check(module.conditions || []));
+          let pass = true;
+          let moduleRange = undefined;
+
+          for (const key in staffCfg?.modules || {}) {
+            if (key.startsWith(`${3 - index}_`)) {
+              const module = staffCfg.modules[key];
+              moduleRange = module?.targetCount;
+
+              if (!module?.status && !ConditionsUtils.check(module.conditions || [])) {
+                pass = false;
+                break;
+              }
+            }
+          }
 
           if (!pass) continue;
-
-          const range = module?.targetCount ?? spellsRange[index];
+          const range = moduleRange ?? spellsRange[index];
           const monster = selectMonsterUtils.selectMonster(range);
           if (!monster) continue;
 
