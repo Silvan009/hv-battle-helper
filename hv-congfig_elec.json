@@ -20,13 +20,7 @@
       "Health Gem_0": {
         "moduleStatus": true,
         "moduleType": "Health Gem",
-        "conditions": [
-          [["hp", "2", "60"]],
-          [
-            ["battleType", "5", "ar"],
-            ["hp", "2", "100"]
-          ]
-        ]
+        "conditions": [[["hp", "2", "60"]], [["battleType", "5", "ar"]]]
       },
       "Mana Gem_1": {
         "moduleStatus": true,
@@ -439,7 +433,25 @@
         "selectRange": true,
         "selectOrder": false,
         "turnsLeft": "0",
-        "conditions": []
+        "conditions": [[["battleType", "6", "ar"]]]
+      },
+      "Imperil_3": {
+        "moduleStatus": true,
+        "moduleType": "Imperil",
+        "targetCount": "3",
+        "selectRange": true,
+        "selectOrder": false,
+        "turnsLeft": "0",
+        "conditions": [
+          [
+            ["battleType", "5", "ar"],
+            ["totalRound", "1", "75"]
+          ],
+          [
+            ["battleType", "5", "ar"],
+            ["totalBoss", "3", "1"]
+          ]
+        ]
       }
     }
   },
@@ -467,6 +479,17 @@
             ["allInRange_7", "5", "1"]
           ]
         ]
+      },
+      "Corruption_2": {
+        "moduleStatus": false,
+        "moduleType": "Corruption",
+        "targetCount": "5",
+        "conditions": [
+          [
+            ["aliveMon", "2", "5"],
+            ["roundUsed_Corruption", "2", "1"]
+          ]
+        ]
       }
     }
   },
@@ -481,6 +504,21 @@
             ["mp", "2", "90"],
             ["aliveMon", "2", "5"],
             ["battleType", "5", "ar"]
+          ]
+        ]
+      },
+      "3_1": {
+        "moduleStatus": true,
+        "moduleType": "3",
+        "targetCount": "10",
+        "conditions": [
+          [
+            ["totalRound", "2", "30"],
+            ["battleType", "6", "iw"]
+          ],
+          [
+            ["totalRound", "1", "75"],
+            ["battleType", "6", "iw"]
           ]
         ]
       }
