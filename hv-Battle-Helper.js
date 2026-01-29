@@ -2,7 +2,7 @@
 // @name         HV 战斗助手
 // @namespace    battle-helper
 // @description  battle-helper
-// @version      1.3.0
+// @version      1.3.1
 // @author       Silvan009
 // @match        *://*.hentaiverse.org/*
 // @exclude      *hentaiverse.org/equip/*
@@ -217,6 +217,7 @@
         <div data-tab="buff">Buff</div>
         <div data-tab="debuff">Debuff</div>
         <div data-tab="skill">Skill</div>
+        <div data-tab="settings">设置</div>
         <div data-tab="about">关于</div>
       </div>
 
@@ -227,6 +228,7 @@
         <div class="page" id="page-buff" style="display:none"></div>
         <div class="page" id="page-debuff" style="display:none"></div>
         <div class="page" id="page-skill" style="display:none"></div>
+        <div class="page" id="page-settings" style="display:none"></div>
         <div class="page" id="page-about" style="display:none"></div>
       </div>
     </div>
@@ -413,6 +415,46 @@
       <input type="checkbox">staff
     </label>
     <button class="add-module">添加</button><div class="module-list"></div></div>
+    `;
+
+  document.getElementById("page-settings").innerHTML = `
+    <div class="settings-container">
+      <label style="font-size: 18px; font-weight: bold;">结算页面设置：</label>
+      <label>
+        <input type="checkbox" id="selectLog"> 将战斗结束时的点击操作限制于图标，以便更轻松地选择日志
+      </label>
+      <label>
+        <input type="checkbox" id="consoleLog"> 在显示掉落日志时，将原始的机器可读日志数据输出到控制台
+      </label>
+      <label>
+        <input type="checkbox" id="terseLog"> 将日志格式化为更易于粘贴到电子表格的形式
+      </label>
+      <label>
+        <input type="checkbox" id="detailedCrystlog"> 分别列出每种水晶类型
+      </label>
+      <label>
+        <input type="checkbox" id="detailedDroplog" checked> 分别列出每种掉落物类型（不包括低于您设定的品质阈值的装备和水晶）
+      </label>
+
+      <div>
+        装备品质阈值：
+        <select id="equipmentCutoff">
+          <option value="0">Peerless</option>
+          <option value="1">Legendary</option>
+          <option value="2" selected>Magnificent</option>
+          <option value="3">Exquisite</option>
+          <option value="4">Superior</option>
+          <option value="5">Average</option>
+        </select>
+      </div>
+
+      <label>
+        <input type="checkbox" id="trackProficiency" checked> 在战斗结束时显示熟练度总收益
+      </label>
+      <label>
+        <input type="checkbox" id="trackSpeed" checked> 在战斗结束时显示回合数和速度统计
+      </label>
+    </div>
     `;
 
   document.getElementById("page-about").innerHTML = `
@@ -823,6 +865,8 @@
       .cond select{margin:0 1px;height:calc(4em / 3 + 6px)}
       .del-cond{width:22px;height:22px;margin:0 1px!important}
       #bh-cfg-textarea{width:100%;height:100px;resize:none;overflow-y:auto;padding:5px 5px;margin:10px 0 0 0;box-sizing:border-box}
+      .settings-container{display:flex;flex-direction:column;align-items:flex-start!important;}
+      .settings-container>div{display:flex;align-items:center;}
     `);
   }
 
@@ -1689,7 +1733,8 @@
       addUIListeners();
 
       let container = getMainContainer();
-      document.getElementById("mainpane").appendChild(container);
+
+      document.body.appendChild(container);
 
       if (!log && document.URL.includes("?s=Battle&ss=ar")) {
         modifyArenaRows("Arena");
@@ -1862,7 +1907,7 @@
     });
 
     if (!isIsekai) {
-      let staminaPrice = (prices["Energy Drink"] || 0) / 10;
+      let staminaPrice = (latestPriceData["Energy Drink"] || 0) / 10;
       latestPriceData.Stamina = staminaPrice;
       latestPriceData["Energy Drink"] = 0;
       localStorage.setItem("hvbs_prices", JSON.stringify(latestPriceData));
@@ -1994,7 +2039,8 @@
         current_selection = event.target.dataset.type;
         if (event.target.dataset.menu) {
           let container = getMainContainer(true);
-          document.getElementById("mainpane").appendChild(container);
+
+          document.body.appendChild(container);
         }
         renderFilters();
         startQuery();
@@ -2713,7 +2759,7 @@
 
   function addMenuCSS() {
     GM_addStyle(
-      "#hbs_container {position: absolute; visibility: hidden; top: 5%; left:3%; width: 90%; height: 90%; overflow-y: auto; background-color: #E3E0D1; color: black; text-align: center; padding: 10px 30px 10px 30px; border-radius: 6px; font-size: 8pt;}",
+      "#hbs_container {position: absolute; visibility: hidden; top: 35px; left:25px; width: 1130px; height: 630px; overflow-y: auto; background-color: #E3E0D1; color: black; text-align: center; padding: 10px 30px 10px 30px; border-radius: 6px; font-size: 8pt;}",
     );
     GM_addStyle(
       ".hbs-buttons-container {position: absolute; top: 10px; left: 10px; display: flex; flex-direction: column; align-items: flex-start; gap: 5px;}",
@@ -3032,14 +3078,14 @@
     let btcp = document.getElementById("btcp");
 
     const cfg = {
-      selectLog: false,
-      consoleLog: false,
-      terseLog: false,
-      detailedCrystlog: false,
-      detailedDroplog: true,
-      equipmentCutoff: 3,
-      trackProficiency: true,
-      trackSpeed: true,
+      selectLog: cfgBattle.selectLog ?? false,
+      consoleLog: cfgBattle.consoleLog ?? false,
+      terseLog: cfgBattle.terseLog ?? false,
+      detailedCrystlog: cfgBattle.detailedCrystlog ?? false,
+      detailedDroplog: cfgBattle.detailedDroplog ?? true,
+      equipmentCutoff: cfgBattle.equipmentCutoff !== undefined ? Number(cfgBattle.equipmentCutoff) : 3,
+      trackProficiency: cfgBattle.trackProficiency ?? true,
+      trackSpeed: cfgBattle.trackSpeed ?? true,
     };
 
     if (cfg.selectLog) {
@@ -3109,7 +3155,7 @@
         const quality = match[1];
         const tierIndex = TIER_INDEX[quality];
 
-        if (tierIndex !== undefined && tierIndex < cfg.equipmentCutoff) {
+        if (tierIndex !== undefined && tierIndex <= cfg.equipmentCutoff) {
           addLine("drop equipment", count.toLocaleString() + (cfg.terseLog ? "\t" : "x ") + name);
         } else {
           lesserCount += count;
@@ -3120,7 +3166,7 @@
         const count = droplog[tier] || 0;
         if (!count) return;
 
-        if (index < cfg.equipmentCutoff) {
+        if (index <= cfg.equipmentCutoff) {
           addLine("drop equipment", count.toLocaleString() + (cfg.terseLog ? "\t" : "x ") + tier + " Equipment");
         } else {
           lesserCount += count;
@@ -5037,7 +5083,8 @@
               const doc = new DOMParser().parseFromString(html, "text/html");
 
               if (doc.getElementById("riddlemaster")) {
-                location.reload();
+                location.replace(location.href);
+
                 return;
               }
 
@@ -5058,9 +5105,9 @@
 
               document.dispatchEvent(new Event("DOMContentLoaded"));
 
-              setTimeout(() => {
+              queueMicrotask(() => {
                 preBattle();
-              }, 0);
+              });
             } catch (err) {
               console.log("error during round transition: code " + err);
             }
