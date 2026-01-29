@@ -3,6 +3,14 @@
   "defaultAttackMode": "order",
   "defaultBossPriority": true,
   "autoNextRound": true,
+  "selectLog": false,
+  "consoleLog": false,
+  "terseLog": false,
+  "detailedCrystlog": false,
+  "detailedDroplog": true,
+  "equipmentCutoff": "2",
+  "trackProficiency": true,
+  "trackSpeed": true,
   "attackModules": [["gf", "order", false]],
   "spiritstance": {
     "status": true,
@@ -458,7 +466,31 @@
   "skills": {
     "status": true,
     "modules": {
-      "Shockblast_0": {
+      "Corruption_0": {
+        "moduleStatus": true,
+        "moduleType": "Corruption",
+        "targetCount": "5",
+        "conditions": [
+          [
+            ["battleType", "5", "ar"],
+            ["aliveMon", "2", "4"],
+            ["roundUsed_Corruption", "2", "1"]
+          ]
+        ]
+      },
+      "Smite_1": {
+        "moduleStatus": true,
+        "moduleType": "Smite",
+        "targetCount": "5",
+        "conditions": [
+          [
+            ["battleType", "5", "ar"],
+            ["aliveMon", "2", "4"],
+            ["roundUsed_Smite", "2", "1"]
+          ]
+        ]
+      },
+      "Shockblast_2": {
         "moduleStatus": true,
         "moduleType": "Shockblast",
         "targetCount": "5",
@@ -469,7 +501,7 @@
           ]
         ]
       },
-      "Chained Lightning_1": {
+      "Chained Lightning_3": {
         "moduleStatus": true,
         "moduleType": "Chained Lightning",
         "targetCount": "7",
@@ -477,30 +509,6 @@
           [
             ["allmon_curhp", "2", "165000"],
             ["allInRange_7", "5", "1"]
-          ]
-        ]
-      },
-      "Corruption_2": {
-        "moduleStatus": true,
-        "moduleType": "Corruption",
-        "targetCount": "5",
-        "conditions": [
-          [
-            ["battleType", "5", "ar"],
-            ["aliveMon", "2", "5"],
-            ["roundUsed_Corruption", "2", "1"]
-          ]
-        ]
-      },
-      "Smite_3": {
-        "moduleStatus": true,
-        "moduleType": "Smite",
-        "targetCount": "5",
-        "conditions": [
-          [
-            ["battleType", "5", "ar"],
-            ["aliveMon", "2", "5"],
-            ["roundUsed_Smite", "2", "1"]
           ]
         ]
       }
