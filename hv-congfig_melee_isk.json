@@ -3,6 +3,14 @@
   "defaultAttackMode": "hpMax",
   "defaultBossPriority": true,
   "autoNextRound": true,
+  "selectLog": false,
+  "consoleLog": false,
+  "terseLog": false,
+  "detailedCrystlog": false,
+  "detailedDroplog": true,
+  "equipmentCutoff": "2",
+  "trackProficiency": true,
+  "trackSpeed": true,
   "attackModules": [
     ["tw", "order", false],
     ["rb", "order", false]
@@ -320,7 +328,8 @@
             ["totalMon", "5", "aliveMon"],
             ["totalMon", "1", "6"],
             ["curRound", "1", "40"],
-            ["sp", "2", "50"]
+            ["sp", "2", "50"],
+            ["isCD_Spirit Potion", "1", "0"]
           ]
         ]
       },
@@ -333,7 +342,8 @@
             ["totalMon", "5", "aliveMon"],
             ["totalMon", "1", "6"],
             ["curRound", "1", "40"],
-            ["sp", "2", "50"]
+            ["sp", "2", "50"],
+            ["isCD_Spirit Potion", "1", "0"]
           ]
         ]
       },
@@ -346,7 +356,8 @@
             ["totalMon", "5", "aliveMon"],
             ["totalMon", "1", "6"],
             ["curRound", "1", "40"],
-            ["sp", "2", "50"]
+            ["sp", "2", "50"],
+            ["isCD_Spirit Potion", "1", "0"]
           ]
         ]
       },
@@ -379,26 +390,18 @@
         "conditions": [
           [
             ["battleType", "5", "tw"],
-            ["aliveMon", "1", "2"]
+            ["aliveMon", "1", "2"],
+            ["allRange_Sleep", "1", "2"]
           ]
         ]
       },
-      "Silence_1": {
-        "moduleStatus": true,
-        "moduleType": "Silence",
-        "targetCount": "3",
-        "selectRange": true,
-        "selectOrder": false,
-        "turnsLeft": "1",
-        "conditions": [[["battleType", "5", "tw"]]]
-      },
-      "Weaken_2": {
+      "Weaken_1": {
         "moduleStatus": true,
         "moduleType": "Weaken",
         "targetCount": "3",
         "selectRange": true,
         "selectOrder": false,
-        "turnsLeft": "1",
+        "turnsLeft": "0",
         "conditions": [
           [["battleType", "5", "tw"]],
           [
@@ -410,6 +413,15 @@
             ["aliveMon", "3", "6"]
           ]
         ]
+      },
+      "Silence_2": {
+        "moduleStatus": true,
+        "moduleType": "Silence",
+        "targetCount": "3",
+        "selectRange": true,
+        "selectOrder": false,
+        "turnsLeft": "0",
+        "conditions": [[["battleType", "5", "tw"]]]
       },
       "Imperil_3": {
         "moduleStatus": true,
@@ -426,6 +438,15 @@
             ["mon_hp", "1", "30"]
           ]
         ]
+      },
+      "Imperil_4": {
+        "moduleStatus": true,
+        "moduleType": "Imperil",
+        "targetCount": "3",
+        "selectRange": true,
+        "selectOrder": false,
+        "turnsLeft": "0",
+        "conditions": [[["battleType", "5", "ar"]]]
       }
     }
   },
