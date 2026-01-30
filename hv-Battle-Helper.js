@@ -2,7 +2,7 @@
 // @name         HV 战斗助手
 // @namespace    battle-helper
 // @description  battle-helper
-// @version      1.3.1
+// @version      1.3.2
 // @author       Silvan009
 // @match        *://*.hentaiverse.org/*
 // @exclude      *hentaiverse.org/equip/*
@@ -891,7 +891,12 @@
       { column_name: "Rounds", field: "completed_rounds", tooltip: "log" },
       { column_name: "Time", field: "seconds", format: "time_string" },
       { column_name: "TPS", numerator: "turns", denominator: "seconds" },
-      { column_name: "Turns", field: "turns", bins: { 1: "color: #922099", 2: "color: #299ec4", 3: "color: #209928" } },
+      {
+        column_name: "Turns",
+        field: "turns",
+        bins: { 1: "color: #922099", 2: "color: #299ec4", 3: "color: #209928" },
+        tooltip: "combat",
+      },
     ],
     Details: [
       {
@@ -899,6 +904,7 @@
         drops: "EXP",
         bins: { 1: "color: #922099", 2: "color: #299ec4", 3: "color: #209928" },
         units: "0",
+        tooltip: "proficiency",
       },
 
       { column_name: "Persona", field: "persona", tooltip: "equipped" },
@@ -975,25 +981,9 @@
       { column_name: "spark", field: "spark" },
       { column_name: "horse", field: "horse" },
     ],
-    "Consumable Usage": [
+    Consumable: [
       {
         column_name: "SUM",
-        sum_usage: [
-          "Mana Potion",
-          "Spirit Potion",
-          "Health Potion",
-          "Mana Elixir",
-          "Spirit Elixir",
-          "Health Elixir",
-          "Mana Draught",
-          "Spirit Draught",
-          "Health Draught",
-          "Last Elixir",
-        ],
-        tooltip: "sum_usage",
-      },
-      {
-        column_name: "消耗品",
         sum_usage: [
           "Mana Potion",
           "Spirit Potion",
@@ -1015,13 +1005,13 @@
           "Infusion of Frost",
           "Infusion of Storms",
           "Infusion of Lightning",
+          "Flower Vase",
+          "Bubble-Gum",
         ],
         tooltip: "sum_usage",
       },
-    ],
-    "Consumable Diff": [
       {
-        column_name: "SUM",
+        column_name: "SUM DIFF",
         sum_difference: [
           "Mana Potion",
           "Spirit Potion",
@@ -1050,6 +1040,8 @@
           "Monster Chow",
           "Infusion of Flames",
           "Infusion of Frost",
+          "Flower Vase",
+          "Bubble-Gum",
         ],
         tooltip: "sum_difference",
       },
@@ -2336,6 +2328,30 @@
         }
         holder.push(col.sum_difference[i] + ": " + count);
       }
+    } else if (col.tooltip === "combat" && data.combat) {
+      const groups = [
+        { title: "Physical Dealt", key: "physicalDealt" },
+        { title: "Magical Dealt", key: "magicalDealt" },
+        { title: "Physical Taken", key: "physicalTaken" },
+        { title: "Magical Taken", key: "magicalTaken" },
+      ];
+
+      groups.forEach((group, index) => {
+        const obj = data.combat[group.key];
+        if (!obj) return;
+
+        holder.push(`【 ${group.title} 】`);
+
+        for (let k in obj) {
+          if (obj[k] !== 0) {
+            holder.push(`${k}: ${obj[k]}`);
+          }
+        }
+
+        if (index !== groups.length - 1) {
+          holder.push("--------------------");
+        }
+      });
     } else if (col.tooltip === "ignore_button") {
       holder.push("ignore_button");
     }
