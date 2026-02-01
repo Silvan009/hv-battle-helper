@@ -3,6 +3,7 @@
   "defaultAttackMode": "hpMax",
   "defaultBossPriority": true,
   "autoNextRound": true,
+  "showDurations": true,
   "selectLog": false,
   "consoleLog": false,
   "terseLog": false,
@@ -407,14 +408,24 @@
           [
             ["totalRound", "5", "95"],
             ["curRound", "5", "95"]
-          ],
+          ]
+        ]
+      },
+      "Weaken_2": {
+        "moduleStatus": false,
+        "moduleType": "Weaken",
+        "targetCount": "3",
+        "selectRange": true,
+        "selectOrder": false,
+        "turnsLeft": "0",
+        "conditions": [
           [
             ["battleType", "5", "ar"],
             ["aliveMon", "3", "6"]
           ]
         ]
       },
-      "Silence_2": {
+      "Silence_3": {
         "moduleStatus": true,
         "moduleType": "Silence",
         "targetCount": "3",
@@ -423,7 +434,7 @@
         "turnsLeft": "0",
         "conditions": [[["battleType", "5", "tw"]]]
       },
-      "Imperil_3": {
+      "Imperil_4": {
         "moduleStatus": true,
         "moduleType": "Imperil",
         "targetCount": "3",
@@ -439,8 +450,8 @@
           ]
         ]
       },
-      "Imperil_4": {
-        "moduleStatus": true,
+      "Imperil_5": {
+        "moduleStatus": false,
         "moduleType": "Imperil",
         "targetCount": "3",
         "selectRange": true,
