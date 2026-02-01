@@ -3,6 +3,7 @@
   "defaultAttackMode": "order",
   "defaultBossPriority": true,
   "autoNextRound": true,
+  "showDurations": true,
   "selectLog": false,
   "consoleLog": false,
   "terseLog": false,
@@ -346,6 +347,10 @@
           [
             ["battleType", "5", "gf"],
             ["curRound", "1", "255"]
+          ],
+          [
+            ["battleType", "5", "iw"],
+            ["curRound", "1", "45"]
           ]
         ]
       },
@@ -356,6 +361,10 @@
           [
             ["battleType", "5", "gf"],
             ["curRound", "1", "255"]
+          ],
+          [
+            ["battleType", "5", "iw"],
+            ["curRound", "1", "45"]
           ]
         ]
       },
@@ -382,6 +391,10 @@
           [
             ["battleType", "5", "gf"],
             ["curRound", "1", "630"]
+          ],
+          [
+            ["battleType", "5", "iw"],
+            ["curRound", "1", "45"]
           ]
         ]
       }
