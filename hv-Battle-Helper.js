@@ -2,7 +2,7 @@
 // @name         HV 战斗助手
 // @namespace    battle-helper
 // @description  battle-helper
-// @version      1.3.2
+// @version      1.3.3
 // @author       Silvan009
 // @match        *://*.hentaiverse.org/*
 // @exclude      *hentaiverse.org/equip/*
@@ -419,7 +419,10 @@
 
   document.getElementById("page-settings").innerHTML = `
     <div class="settings-container">
-      <label style="font-size: 18px; font-weight: bold;">结算页面设置：</label>
+      <label style="font-size: 18px; font-weight: bold;">战斗页面设置：</label>
+      <label>
+        <input type="checkbox" id="showDurations" checked> 显示效果持续时间
+      </label>
       <label>
         <input type="checkbox" id="selectLog"> 将战斗结束时的点击操作限制于图标，以便更轻松地选择日志
       </label>
@@ -823,6 +826,10 @@
     .food{color:#489eff}
     #damagelog{border:2px solid #5c0e13;border-collapse:collapse}
     #damagelog td{border:1px solid #aaa;text-align:center}
+    .effect_duration{display:inline-block;width:30px;margin-right:-30px;position:relative;text-align:center;z-index:1}
+    .effect_duration div{display:inline-block;min-width:16px;padding:0 2px;background:#edebdf;color:#000;font-weight:700;border:1px solid #000;font-family:arial,helvetica,sans-serif}
+    #battle_right {overflow:visible;}
+    #battle_right .btm6 {min-width:200px;}
   `);
 
   if (document.getElementById("bh-panel")) {
@@ -915,6 +922,7 @@
         field: "revenue",
         bins: { 1: "color: #922099", 2: "color: #299ec4", 3: "color: #209928" },
         units: "0",
+        tooltip: "drops",
       },
 
       {
@@ -2352,6 +2360,24 @@
           holder.push("--------------------");
         }
       });
+    } else if (col.tooltip === "drops" && data.drops) {
+      const excludeKeys = new Set(["Equips", "EXP", "Consumable", "Food", "Artifact", "Figurine", "Trophy"]);
+
+      holder.push("【 Drops 】");
+
+      for (let key in data.drops) {
+        if (excludeKeys.has(key)) continue;
+
+        const val = data.drops[key];
+
+        if (val === 0 || val === null || val === undefined) continue;
+
+        if (Array.isArray(val) && val.length === 0) continue;
+
+        if (typeof val === "object" && key === "Equips") continue;
+
+        holder.push(`${key}: ${val}`);
+      }
     } else if (col.tooltip === "ignore_button") {
       holder.push("ignore_button");
     }
@@ -3284,7 +3310,10 @@
     floor: /Floor (\d+)/,
     round: /Round (\d+) \/ (\d+)/,
     monster: /MID=(\d+) \(([^<>]+)\) \LV=(\d+) HP=(\d+)/g,
-
+    effectGain: /([\w\s-]+) gains the effect ([\w\s-]+)\./g,
+    effectExpired: /The effect ([\w\s-]+) on ([\w\s-]+) has expired\./g,
+    effectWear: /The effect ([\w\s-]+) on ([\w\s-]+) has worn off\./g,
+    effectWearAsleep: /([^<>]+) has been roused from its sleep\./g,
     spellMatch: /\('(?<name>[\w\s-]+)(?:\s\(x(?<stack>\d+)\))?',\s?(?<description>.*),\s?(?<turns>.*)\)/,
     spellInfo: /\('([\w\s-]+)'.*, '(\w+)', (\d+), (\d+), (\d+)\)/,
     itemInfo: /set_infopane_item\((\d+)/,
@@ -3575,6 +3604,41 @@
     "Wails of the Present",
     "Absorbing Ward",
   ];
+  const effectSrc = {
+    "Vital Theft": { scr: "/y/e/drainhp.png" },
+    "Ether Theft": { scr: "/y/e/drainmp.png" },
+    "Spirit Theft": { scr: "/y/e/drainsp.png" },
+
+    Weakened: { scr: "/y/e/weaken.png" },
+    Imperiled: { scr: "/y/e/imperil.png" },
+    Slowed: { scr: "/y/e/slow.png" },
+    Asleep: { scr: "/y/e/sleep.png" },
+    Confused: { scr: "/y/e/confuse.png" },
+    Blinded: { scr: "/y/e/blind.png" },
+    Silenced: { scr: "/y/e/silence.png" },
+    "Magically Snared": { scr: "/y/e/magnet.png" },
+    Immobilized: { scr: "/y/e/magnet.png" },
+    Stunned: { scr: "/y/e/wpn_stun.png" },
+    "Penetrated Armor": { scr: "/y/e/wpn_ap.png" },
+    "Bleeding Wound": { scr: "/y/e/wpn_bleed.png" },
+    "Spreading Poison": { scr: "/y/e/poison.png" },
+    "Coalesced Mana": { scr: "/y/e/coalescemana.png" },
+
+    "Searing Skin": { scr: "/y/e/firedot.png" },
+    "Freezing Limbs": { scr: "/y/e/coldslow.png" },
+    "Turbulent Air": { scr: "/y/e/windmiss.png" },
+    "Deep Burns": { scr: "/y/e/elecweak.png" },
+    "Breached Defense": { scr: "/y/e/holybreach.png" },
+    "Blunted Attack": { scr: "/y/e/darknerf.png" },
+    "Burning Soul": { scr: "/y/e/soulfire.png" },
+    "Ripened Soul": { scr: "/y/e/ripesoul.png" },
+
+    "Fury of the Sisters": { scr: "/y/e/trio_furyofthesisters.png" },
+    "Lamentations of the Future": { scr: "/y/e/trio_skuld.png" },
+    "Screams of the Past": { scr: "/y/e/trio_urd.png" },
+    "Wails of the Present": { scr: "/y/e/trio_verdandi.png" },
+    "Absorbing Ward": { scr: "/y/e/absorb.png" },
+  };
 
   function setStorage(storageName, key, value) {
     let data = localStorage.getItem(storageName);
@@ -3645,6 +3709,12 @@
       let effectsPane = document.querySelector("#pane_effects");
       let effects = Array.from(effectsPane.getElementsByTagName("img"));
       let playerEffectsLength = effects.length;
+      let render = cfgBattle.showDurations;
+
+      if (render) {
+        let monasterEffects = Array.from(document.querySelectorAll(".btm6 > img[onmouseover]"));
+        effects = effects.concat(monasterEffects);
+      }
 
       effects.forEach((effect, index) => {
         let tooltip = effect.getAttribute("onmouseover");
@@ -3664,6 +3734,29 @@
 
         if (index < playerEffectsLength && effname) stackEffectObj[effname] = effstack;
         if (index < playerEffectsLength && effname) playerEffectObj[effname] = effturns;
+
+        if (render) {
+          let durationContainer = document.createElement("div");
+          durationContainer.className = "effect_duration";
+          let durationDiv = document.createElement("div");
+
+          if (effturns < 9) {
+            durationDiv.style.background = effturns < 4 ? "aquamarine" : "lavender";
+          } else if (effturns === "'autocast'") {
+            effturns = decodeURIComponent("%E2%88%9E");
+          } else if (effturns === "'permanent'") {
+            effturns = decodeURIComponent("%E2%88%9E");
+          } else if (effturns === "'decaying'") {
+            effturns = "";
+          } else if (effturns === "'-'") {
+            effturns = "-";
+          }
+
+          durationDiv.innerHTML = effturns;
+
+          durationContainer.appendChild(durationDiv);
+          effect.parentNode.insertBefore(durationContainer, effect);
+        }
       });
 
       hvBH.playerEffectObj = playerEffectObj;
@@ -3739,6 +3832,7 @@
           isAlive: monster_btm1.hasAttribute("onclick"),
           effectObj: {},
           effCount: 0,
+          monster_btm1: monster_btm1,
         };
 
         let monster_btm3 = monster_btm1.querySelector(".btm3");
@@ -3820,6 +3914,109 @@
 
       hvBH.attackMode = matched?.[1] ?? cfgBattle.defaultAttackMode;
       hvBH.attackBossPriority = matched?.[2] ?? cfgBattle.defaultBossPriority;
+    },
+
+    updateMonsterEffects() {
+      const monsters = hvBH.monsters;
+      const monstersEffects = hvBH.monstersEffects;
+      let activeMonsters = monsters.filter((m) => m.isAlive);
+
+      function getEffectChanges(turnLog) {
+        let effectsAdded = turnLog.matchAll(regExp.effectGain);
+        let effectsRemoved = [...turnLog.matchAll(regExp.effectExpired), ...turnLog.matchAll(regExp.effectWear)];
+        let asleepRemoved = turnLog.matchAll(regExp.effectWearAsleep);
+        let effectChanges = {};
+
+        for (const match of effectsAdded) (effectChanges[match[1]] ??= { add: [], remove: [] }).add.push(match[2]);
+        for (const match of effectsRemoved) (effectChanges[match[2]] ??= { add: [], remove: [] }).remove.push(match[1]);
+        for (const match of asleepRemoved) (effectChanges[match[1]] ??= { add: [], remove: [] }).remove.push("Asleep");
+
+        return effectChanges;
+      }
+
+      function calcHiddenDelta(name, effectObj) {
+        let savedEffects = monstersEffects[name];
+        if (!savedEffects) return;
+
+        let maxDecrease = 0;
+        let effects = Object.keys(effectObj);
+        for (const effect of effects) {
+          let savedTurns = Number(savedEffects[effect]);
+          let effectTurns = Number(effectObj[effect]);
+          if (!isNaN(savedTurns) && !isNaN(effectTurns)) {
+            let delta = savedTurns - effectTurns;
+            if (delta > 0) maxDecrease = Math.max(maxDecrease, delta);
+          }
+        }
+
+        return maxDecrease;
+      }
+
+      function applyHiddenDelta(name, effectObj, delta) {
+        if (!delta || delta <= 0) return;
+        let savedEffects = monstersEffects[name];
+        if (!savedEffects) return;
+
+        let effects = Object.keys(effectObj);
+        for (const savedEffect in savedEffects) {
+          if (effects.includes(savedEffect)) continue;
+
+          let savedTurns = Number(savedEffects[savedEffect]);
+          if (isNaN(savedTurns)) continue;
+
+          savedEffects[savedEffect] = Math.max(0, savedTurns - delta);
+        }
+      }
+
+      let turnLog = log.innerHTML.match(regExp.turnLog)?.[0];
+      let effectChanges = turnLog ? getEffectChanges(turnLog) : {};
+
+      for (const activeMonster of activeMonsters) {
+        let name = activeMonster.name;
+        let savedEffects = (monstersEffects[name] ??= {});
+
+        let effectObj = activeMonster.effectObj;
+        let effects = Object.keys(effectObj);
+
+        if (effects.length < 5) {
+          for (const effect in savedEffects) delete savedEffects[effect];
+        } else if (effects.length === 5) {
+          for (const effect in savedEffects) delete savedEffects[effect];
+          for (const effect of effects) savedEffects[effect] = effectObj[effect];
+        } else if (effects.length === 6) {
+          let delta = calcHiddenDelta(name, effectObj);
+          for (const effect of effects) savedEffects[effect] = effectObj[effect];
+
+          if (effectChanges[name]) {
+            for (const effect of effectChanges[name].add) !effects.includes(effect) && (savedEffects[effect] = "-");
+            for (const effect of effectChanges[name].remove)
+              !effects.includes(effect) && effect in savedEffects && delete savedEffects[effect];
+          }
+
+          applyHiddenDelta(name, effectObj, delta);
+
+          let monster_btm6 = activeMonster.monster_btm1.querySelector(".btm6");
+          monster_btm6.style.width = "max-content";
+
+          for (const effect in savedEffects) {
+            if (!(effect in effectObj)) {
+              let turns = savedEffects[effect];
+              effectObj[effect] = turns;
+              if (isNaN(Number(turns))) turns = `'${String(turns).replace(/'/g, "")}'`;
+
+              let img = document.createElement("img");
+              img.src = (isIsekai ? "/isekai" : "") + (effectSrc[effect]?.scr || "/y/e/channeling.png");
+              img.setAttribute(
+                "onmouseover",
+                `battle.set_infopane_effect('${effect}', 'jpx Hidden Effects', ${turns})`,
+              );
+              img.setAttribute("onmouseout", "battle.clear_infopane()");
+
+              monster_btm6.appendChild(img);
+            }
+          }
+        }
+      }
     },
   };
 
@@ -3975,10 +4172,14 @@
 
     getDebuffTurns(statusName, monster, isSleep = false) {
       const effect = EFFECTS.includes(statusName) ? statusName : debuffMap[statusName];
-      const effects = monster?.effectObj;
+      let effects = monster?.effectObj;
+      if (effects.length >= 5) {
+        const monName = monster?.name || "Unknown";
+        effects = hvBH?.monstersEffects?.[monName];
+      }
 
       if (!effect || !effects) return -1;
-      if (effects.length >= 6) return 999;
+
       if (statusName != "Sleep" && isSleep && effects.Asleep !== undefined) return 999;
 
       if (Array.isArray(effect)) {
@@ -4115,10 +4316,15 @@
       const monsters = hvBH.monsters;
       if (!monsters?.length) return null;
 
-      const alive = monsters.filter((m) => m.isAlive);
+      let alive = monsters.filter((m) => m.isAlive);
       if (!alive.length) return null;
 
       if (debuffName && isAllRange) {
+        if (debuffName === "Sleep") {
+          const base = this.baseTarget(alive);
+          alive = alive.filter((monster) => monster.index !== base.index);
+          if (!alive.length) return null;
+        }
         return this.scanBestCenter(alive, range, {
           debuffName,
           reverse,
@@ -5001,6 +5207,7 @@
         maxhp: +matches[4],
       });
     }
+    hvBH.monstersEffects = {};
 
     if (hvBH.monsterData.length) {
       setBattle("monsterData", hvBH.monsterData);
@@ -5061,11 +5268,12 @@
   }
 
   function getBattleStatus() {
+    BattleStatusUtils.getMonsters();
     BattleStatusUtils.getVitals();
     BattleStatusUtils.getSpiritStatus();
+    BattleStatusUtils.updateMonsterEffects();
     BattleStatusUtils.getPlayerEffect();
     BattleStatusUtils.getActionCooldowns();
-    BattleStatusUtils.getMonsters();
     BattleStatusUtils.getAttackMode();
 
     startBattle();
@@ -5257,7 +5465,7 @@
 
       if (spells) {
         const staffCfg = cfgBattle.staff;
-        if (staffCfg?.status && ConditionsUtils.getBuffTurns("Ether Tap") < 2) {
+        if (staffCfg?.status && (hvBH.stackEffectObj["Ether Tap"] || 0) < 2) {
           for (const [moduleName, module] of Object.entries(staffCfg.modules)) {
             if (!moduleName.startsWith("Ether Tap")) continue;
             if (!module?.moduleStatus) continue;
