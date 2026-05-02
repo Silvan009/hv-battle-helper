@@ -5031,14 +5031,8 @@
       if (/Battle/i.test(currentUrl)) {
         let levelReadout = document.querySelector("#level_readout > div > div")?.innerText;
         let playerInfo = levelReadout.match(regExp.playerInfo);
-        if (Array.isArray(playerInfo) && playerInfo.length >= 3) {
-            if (difficulty !== playerInfo[1]) {
-                setStorage(CONFIG_KEY, "difficulty", playerInfo[1]);
-            }
-            if (level !== playerInfo[2]) {
-                setStorage(CONFIG_KEY, "level", playerInfo[2]);
-            }
-        }
+        if (difficulty != playerInfo[1]) setStorage(CONFIG_KEY, "difficulty", playerInfo[1]);
+        if (level != playerInfo[2]) setStorage(CONFIG_KEY, "level", playerInfo[2]);
       } else if (/Character&ss=eq/i.test(currentUrl)) {
         equip_set = extractEquipIdsAndKValues();
         setStorage(CONFIG_KEY, "equip_set", equip_set);
