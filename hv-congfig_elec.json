@@ -29,7 +29,7 @@
       "Health Gem_0": {
         "moduleStatus": true,
         "moduleType": "Health Gem",
-        "conditions": [[["hp", "2", "60"]], [["battleType", "5", "ar"]]]
+        "conditions": [[["hp", "2", "60"]], [["battleType", "5", "ar"]], [["battleType", "5", "gf"]]]
       },
       "Mana Gem_1": {
         "moduleStatus": true,
@@ -39,15 +39,7 @@
       "Spirit Gem_2": {
         "moduleStatus": true,
         "moduleType": "Spirit Gem",
-        "conditions": [
-          [["sp", "2", "85"]],
-          [["battleType", "5", "ar"]],
-          [
-            ["battleType", "5", "gf"],
-            ["sp", "2", "100"],
-            ["curRound", "2", "200"]
-          ]
-        ]
+        "conditions": [[["sp", "2", "85"]], [["battleType", "5", "ar"]], [["battleType", "5", "gf"]]]
       },
       "Mystic Gem_3": {
         "moduleStatus": true,
@@ -350,7 +342,7 @@
           ],
           [
             ["battleType", "5", "iw"],
-            ["curRound", "1", "45"]
+            ["curRound", "1", "55"]
           ]
         ]
       },
@@ -364,7 +356,7 @@
           ],
           [
             ["battleType", "5", "iw"],
-            ["curRound", "1", "45"]
+            ["curRound", "1", "55"]
           ]
         ]
       },
@@ -394,7 +386,7 @@
           ],
           [
             ["battleType", "5", "iw"],
-            ["curRound", "1", "45"]
+            ["curRound", "1", "55"]
           ]
         ]
       }
@@ -415,6 +407,10 @@
             ["battleType", "5", "ar"],
             ["totalRound", "5", "100"],
             ["curRound", "5", "100"]
+          ],
+          [
+            ["battleType", "5", "iw"],
+            ["totalRound", "1", "24"]
           ]
         ]
       },
@@ -444,6 +440,10 @@
             ["battleType", "5", "gf"],
             ["sp", "2", "51"],
             ["curRound", "3", "600"]
+          ],
+          [
+            ["battleType", "5", "iw"],
+            ["totalRound", "1", "24"]
           ]
         ]
       },
