@@ -14,7 +14,8 @@
   "trackSpeed": true,
   "attackModules": [
     ["tw", "order", false],
-    ["rb", "order", false]
+    ["rb", "order", false],
+    ["gf", "order", false]
   ],
   "spiritstance": {
     "status": true,
@@ -261,6 +262,10 @@
           [
             ["mp", "2", "90"],
             ["battleType", "5", "tw"]
+          ],
+          [
+            ["mp", "2", "90"],
+            ["curRound", "1", "300"]
           ]
         ]
       },
@@ -272,6 +277,10 @@
           [
             ["sp", "2", "90"],
             ["battleType", "5", "tw"]
+          ],
+          [
+            ["curRound", "1", "300"],
+            ["sp", "2", "90"]
           ]
         ]
       },
@@ -393,6 +402,11 @@
             ["battleType", "5", "tw"],
             ["aliveMon", "1", "2"],
             ["allRange_Sleep", "1", "2"]
+          ],
+          [
+            ["curRound", "1", "500"],
+            ["aliveMon", "1", "2"],
+            ["allRange_Sleep", "1", "3"]
           ]
         ]
       },
@@ -408,6 +422,24 @@
           [
             ["totalRound", "5", "95"],
             ["curRound", "5", "95"]
+          ],
+          [
+            ["curRound", "1", "150"],
+            ["allRange_Weakened", "1", "3"]
+          ],
+          [
+            ["curRound", "1", "350"],
+            ["allRange_Weakened", "1", "2"]
+          ],
+          [
+            ["curRound", "1", "500"],
+            ["allRange_Weakened", "1", "1"]
+          ],
+          [["curRound", "1", "700"]],
+          [
+            ["totalRound", "5", "95"],
+            ["totalMon", "1", "7"],
+            ["allRange_Weakened", "1", "2"]
           ]
         ]
       },
@@ -446,7 +478,8 @@
           [
             ["battleType", "5", "tw"],
             ["mp", "1", "35"],
-            ["mon_hp", "1", "30"]
+            ["mon_hp", "1", "30"],
+            ["aliveMon", "1", "1"]
           ]
         ]
       },
@@ -480,7 +513,8 @@
             ["mon_hp", "1", "50"],
             ["debuff_Imperiled", "1", "-1"],
             ["debuff_Stunned", "1", "-1"],
-            ["debuff_Penetrated Armor", "1", "-1"]
+            ["debuff_Penetrated Armor", "1", "-1"],
+            ["aliveMon", "1", "1"]
           ]
         ]
       }
